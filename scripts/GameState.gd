@@ -1,8 +1,13 @@
 extends Node
 
+const XpCurve = preload("res://scripts/logic/XpCurve.gd")
+const ShopRules = preload("res://scripts/logic/ShopRules.gd")
+const LevelUpRules = preload("res://scripts/logic/LevelUpRules.gd")
+
 signal health_changed(current: int, maximum: int)
 signal gold_changed(amount: int)
 signal xp_changed(current: int, next_level: int)
+signal leveled_up(new_level: int)
 
 var wave: int = 1
 var gold: int = 0
@@ -33,18 +38,20 @@ const UPGRADES = [
 ]
 
 func apply_upgrade(upgrade: Dictionary) -> void:
-	stats[upgrade.stat] += upgrade.value
+	ShopRules.apply_upgrade(stats, upgrade)
 
 func add_xp(amount: int) -> void:
-	xp += int(amount * stats.xp_mult)
-	while xp >= xp_to_next:
-		xp -= xp_to_next
-		xp_to_next = int(xp_to_next * 1.4)
-		player_level += 1
+	var result := XpCurve.apply_xp(xp, xp_to_next, player_level, XpCurve.scaled_xp(amount, stats.xp_mult))
+	xp = result.xp
+	xp_to_next = result.xp_to_next
+	var old_level := player_level
+	player_level = result.level
 	emit_signal("xp_changed", xp, xp_to_next)
+	for level in LevelUpRules.levels_reached(old_level, player_level):
+		leveled_up.emit(level)
 
 func add_gold(amount: int) -> void:
-	gold += int(amount * stats.gold_mult)
+	gold += XpCurve.scaled_gold(amount, stats.gold_mult)
 	emit_signal("gold_changed", gold)
 
 func reset() -> void:
