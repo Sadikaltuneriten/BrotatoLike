@@ -1,0 +1,82 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://n8c2v66cvr0m"]
+
+[ext_resource type="Texture2D" uid="uid://dcmq8so4hok6q" path="res://Enemy/Minotaur_01_Walking_000.png" id="1_6mh3b"]
+[ext_resource type="Texture2D" uid="uid://bycjiu0ek3ysp" path="res://Enemy/Minotaur_01_Walking_001.png" id="2_n4560"]
+[ext_resource type="Texture2D" uid="uid://b44ol8apt2q31" path="res://Enemy/Minotaur_01_Walking_002.png" id="3_14jxj"]
+[ext_resource type="Texture2D" uid="uid://dtavkyesfvu3q" path="res://Enemy/Minotaur_01_Walking_003.png" id="4_r7k5q"]
+[ext_resource type="Texture2D" uid="uid://cn1vledmr32un" path="res://Enemy/Minotaur_01_Walking_004.png" id="5_jkjav"]
+[ext_resource type="Texture2D" uid="uid://dt656802tn5c" path="res://Enemy/Minotaur_01_Walking_005.png" id="6_wxylc"]
+[ext_resource type="Texture2D" uid="uid://kc0ycs7jborb" path="res://Enemy/Minotaur_01_Walking_006.png" id="7_pwhr5"]
+[ext_resource type="Texture2D" uid="uid://cx56u544kjyl7" path="res://Enemy/Minotaur_01_Walking_007.png" id="8_ryrh6"]
+[ext_resource type="Texture2D" uid="uid://bier77i6hcd6x" path="res://Enemy/Minotaur_01_Walking_008.png" id="9_5y6hy"]
+[ext_resource type="Texture2D" uid="uid://dkhwama0ohnhg" path="res://Enemy/Minotaur_01_Walking_009.png" id="10_fp2eg"]
+[ext_resource type="Texture2D" uid="uid://bg0lfphrgevdr" path="res://Enemy/Minotaur_01_Walking_010.png" id="11_km71f"]
+[ext_resource type="Texture2D" uid="uid://c6jwa0600up5w" path="res://Enemy/Minotaur_01_Walking_011.png" id="12_y5epd"]
+[ext_resource type="Texture2D" uid="uid://cyj1hf76cyo46" path="res://Enemy/Minotaur_01_Walking_012.png" id="13_l8xuj"]
+[ext_resource type="Texture2D" uid="uid://de2km5y82bjxt" path="res://Enemy/Minotaur_01_Walking_013.png" id="14_qsbpm"]
+[ext_resource type="Texture2D" uid="uid://fvhgpe1dgoxp" path="res://Enemy/Minotaur_01_Walking_014.png" id="15_hm6nw"]
+[ext_resource type="Texture2D" uid="uid://q0iykepyn0qi" path="res://Enemy/Minotaur_01_Walking_015.png" id="16_afld0"]
+[ext_resource type="Texture2D" uid="uid://dpliip3vch3qq" path="res://Enemy/Minotaur_01_Walking_016.png" id="17_hmii3"]
+[ext_resource type="Texture2D" uid="uid://dw48mywgg7f2r" path="res://Enemy/Minotaur_01_Walking_017.png" id="18_2sy2b"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6mh3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_n4560")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_14jxj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_r7k5q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_jkjav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wxylc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_pwhr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ryrh6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5y6hy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_fp2eg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_km71f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_y5epd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_l8xuj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_qsbpm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_hm6nw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_afld0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_hmii3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_2sy2b")
+}],
+"loop": 1,
+"name": &"walk",
+"speed": 24.0
+}]

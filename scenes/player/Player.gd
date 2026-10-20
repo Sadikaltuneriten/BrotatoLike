@@ -24,26 +24,35 @@ func _physics_process(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	global_position = global_position.clamp(Vector2(18, 18), vp - Vector2(18, 18))
 
+	# --- NEU: Animationen & Spiegeln steuern ---
+	var anim_sprite := get_node_or_null("AnimatedSprite2D") # Passe den Namen an, falls dein AnimatedSprite2D anders heißt
+	if anim_sprite:
+		if dir != Vector2.ZERO:
+			anim_sprite.play("running")
+			# Horizontal spiegeln, wenn wir nach links laufen
+			if dir.x < 0:
+				anim_sprite.flip_h = true
+			elif dir.x > 0:
+				anim_sprite.flip_h = false
+			# Hinweis: Wenn dir.x == 0 (z.B. nur hoch/runter), behält er die letzte Richtung bei
+		else:
+			anim_sprite.play("idle")
+	# ---------------------------------------------
+
 	if flash_timer > 0.0:
 		flash_timer -= delta
-		if flash_timer <= 0.0:
-			queue_redraw()
+		# Kein queue_redraw() mehr nötig, da wir kein _draw() für den Kreis mehr nutzen
 
+# _draw() ist jetzt leer, damit der alte Platzhalter-Kreis verschwindet
 func _draw() -> void:
-	var col := Color.RED if flash_timer > 0.0 else Color(0.35, 0.75, 0.20)
-	draw_circle(Vector2.ZERO, 18.0, col)
-	draw_arc(Vector2.ZERO, 18.0, 0.0, TAU, 32, col.darkened(0.45), 2.5)
-	draw_circle(Vector2(-6, -5), 4.0, Color.WHITE)
-	draw_circle(Vector2(6, -5), 4.0, Color.WHITE)
-	draw_circle(Vector2(-6, -5), 2.0, Color.BLACK)
-	draw_circle(Vector2(6, -5), 2.0, Color.BLACK)
+	pass
 
 func take_damage(amount: int) -> void:
 	var actual: int = max(1, amount - int(GameState.stats.armor))
 	health -= actual
 	GameState.emit_signal("health_changed", health, int(GameState.stats.max_health))
 	flash_timer = 0.15
-	queue_redraw()
+	# queue_redraw() entfernt, da das Aufleuchten jetzt über das Sprite / Shader laufen müsste (oder vorerst weggelassen wird)
 	if health <= 0:
 		die()
 

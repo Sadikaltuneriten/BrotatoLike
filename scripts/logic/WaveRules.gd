@@ -4,7 +4,7 @@ extends RefCounted
 const WAVE_DURATION := 60.0
 const BASE_SPAWN_INTERVAL := 2.0
 const MIN_SPAWN_INTERVAL := 0.3
-const SPAWN_INTERVAL_STEP := 0.1
+const SPAWN_INTERVAL_STEP := 0.3
 const FIRST_SPAWN_DELAY := 1.5
 
 ## Probability thresholds for enemy types, checked against a roll in [0, 1).

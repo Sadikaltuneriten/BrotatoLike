@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://nqsq20n0wd1o"
+path="res://.godot/imported/Impact 4.wav-f3e8914404afcba0a78dfb197287b652.sample"
+
+[deps]
+
+source_file="res://scenes/weapons/Impact 4.wav"
+dest_files=["res://.godot/imported/Impact 4.wav-f3e8914404afcba0a78dfb197287b652.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

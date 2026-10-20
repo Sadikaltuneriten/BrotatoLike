@@ -25,4 +25,13 @@ func _draw() -> void:
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("enemies"):
 		body.take_damage(damage)
+		
+		# Treffer-Sound abspielen und Kugel danach löschen
+		var hit_sound := get_node_or_null("HitSound") as AudioStreamPlayer2D
+		if hit_sound and hit_sound.stream:
+			hide() # Kugel unsichtbar machen
+			set_deferred("monitoring", false) # Kollisionen deaktivieren
+			hit_sound.play()
+			await hit_sound.finished
+			
 		queue_free()

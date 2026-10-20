@@ -1,12 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://bullet0001"]
+[gd_scene format=3 uid="uid://bullet0001"]
 
-[ext_resource type="Script" path="res://scenes/weapons/Bullet.gd" id="1_bullet"]
+[ext_resource type="Script" uid="uid://d2di6e4dom01h" path="res://scenes/weapons/Bullet.gd" id="1_bullet"]
+[ext_resource type="AudioStream" uid="uid://dm1i2ieyrkx4x" path="res://scenes/weapons/UI_Cancel_Whoosh_var01.wav" id="2_fkow1"]
+[ext_resource type="AudioStream" uid="uid://nqsq20n0wd1o" path="res://scenes/weapons/Impact 4.wav" id="3_c8dtc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 5.0
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" unique_id=1841938853]
 script = ExtResource("1_bullet")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1466549964]
 shape = SubResource("CircleShape2D_1")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=908061037]
+stream = ExtResource("2_fkow1")
+volume_db = -3.07
+pitch_scale = 2.07
+autoplay = true
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="." unique_id=817169649]
+stream = ExtResource("3_c8dtc")
