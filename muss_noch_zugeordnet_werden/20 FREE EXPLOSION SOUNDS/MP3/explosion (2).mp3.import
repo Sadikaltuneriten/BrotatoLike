@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c6vaqfh0vkdl4"
+path="res://.godot/imported/explosion (2).mp3-ef2283a1f3738ae38c83945981986b6f.mp3str"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/20 FREE EXPLOSION SOUNDS/MP3/explosion (2).mp3"
+dest_files=["res://.godot/imported/explosion (2).mp3-ef2283a1f3738ae38c83945981986b6f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

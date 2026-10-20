@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://b4136ue8gqfyr" path="res://sound_sfx/8_Atk_Magic_SFX/04_Fire_explosion_04_medium.wav" id="22_1l878"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
-radius = 14.0
+radius = 12.74
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1l878"]
 atlas = ExtResource("21_jwt20")
@@ -468,7 +468,9 @@ animations = [{
 script = ExtResource("1_enemy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=370795436]
+scale = Vector2(3, 3)
 shape = SubResource("CircleShape2D_1")
+debug_color = Color(0.79342043, 0.42206046, 0.14228013, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2010191112]
 scale = Vector2(0.3, 0.3)
@@ -484,5 +486,6 @@ frame = 64
 frame_progress = 1.0
 
 [node name="deathsound" type="AudioStreamPlayer2D" parent="." unique_id=1152141352]
+position = Vector2(12, -14.000002)
 scale = Vector2(0.8, 0.8)
 stream = ExtResource("22_1l878")

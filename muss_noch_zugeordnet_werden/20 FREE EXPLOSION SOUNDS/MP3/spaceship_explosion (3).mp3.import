@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b1s37dfe4ckua"
+path="res://.godot/imported/spaceship_explosion (3).mp3-c95c5ffc8f3767a62624a86ad3a2dd6c.mp3str"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/20 FREE EXPLOSION SOUNDS/MP3/spaceship_explosion (3).mp3"
+dest_files=["res://.godot/imported/spaceship_explosion (3).mp3-c95c5ffc8f3767a62624a86ad3a2dd6c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://weapon0001"]
+[gd_scene format=3 uid="uid://weapon0001"]
 
-[ext_resource type="Script" path="res://scenes/weapons/Weapon.gd" id="1_weapon"]
+[ext_resource type="Script" uid="uid://bfsqvnlxxy2p8" path="res://scenes/weapons/Weapon.gd" id="1_weapon"]
+[ext_resource type="Texture2D" uid="uid://cls0nh4lndk8y" path="res://sprites/c57e28e243f0656063f7b51b13d24f19.png" id="2_j4sej"]
 
-[node name="Weapon" type="Node2D"]
+[node name="Weapon" type="Node2D" unique_id=2111904970]
 script = ExtResource("1_weapon")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1144725714]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_j4sej")
+
+[node name="SpawnPoint" type="Marker2D" parent="Sprite2D" unique_id=1866756216]
+position = Vector2(339.99997, -359.99997)
+scale = Vector2(0.99999994, 0.99999994)

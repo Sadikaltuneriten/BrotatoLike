@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://koacv46uklwa"
+path="res://.godot/imported/explosion_cartoon (3).mp3-f9c0cfe217940b76353f9845a6ba88de.mp3str"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/20 FREE EXPLOSION SOUNDS/MP3/explosion_cartoon (3).mp3"
+dest_files=["res://.godot/imported/explosion_cartoon (3).mp3-f9c0cfe217940b76353f9845a6ba88de.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

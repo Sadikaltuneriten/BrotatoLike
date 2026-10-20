@@ -8,7 +8,7 @@ const FRAMES_STANDARD = preload("res://resources/sprites_standard.tres")
 const FRAMES_SPEEDER = preload("res://resources/sprites_speeder.tres")
 const FRAMES_TANK = preload("res://resources/sprites_tank.tres")
 
-@export var speed := 80.0
+@export var speed := 400.0
 @export var health := 30
 @export var damage := 10
 @export var xp_value := 5

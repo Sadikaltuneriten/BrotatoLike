@@ -3,9 +3,49 @@
 [ext_resource type="Script" uid="uid://d2di6e4dom01h" path="res://scenes/weapons/Bullet.gd" id="1_bullet"]
 [ext_resource type="AudioStream" uid="uid://dm1i2ieyrkx4x" path="res://scenes/weapons/UI_Cancel_Whoosh_var01.wav" id="2_fkow1"]
 [ext_resource type="AudioStream" uid="uid://nqsq20n0wd1o" path="res://scenes/weapons/Impact 4.wav" id="3_c8dtc"]
+[ext_resource type="Texture2D" uid="uid://cymu8x65wx8gw" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_01.png" id="4_sg4sm"]
+[ext_resource type="Texture2D" uid="uid://c4qq2d38uw438" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_02.png" id="5_ruyip"]
+[ext_resource type="Texture2D" uid="uid://0ko12c7qhsst" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_03.png" id="6_gmsr0"]
+[ext_resource type="Texture2D" uid="uid://dy168gdnfqclq" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_04.png" id="7_6iq6d"]
+[ext_resource type="Texture2D" uid="uid://ufmlsxb4n03" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_05.png" id="8_cfudu"]
+[ext_resource type="Texture2D" uid="uid://l8wfkl0kw1sn" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_06.png" id="9_v30er"]
+[ext_resource type="Texture2D" uid="uid://bktc3jihyqp1o" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_07.png" id="10_dgvty"]
+[ext_resource type="Texture2D" uid="uid://b06v8m1okvw2q" path="res://sprites/spells/Fire Arrow/PNG/Fire Arrow_Frame_08.png" id="11_20yef"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 5.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tt28y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_sg4sm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ruyip")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_gmsr0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6iq6d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_cfudu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_v30er")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dgvty")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_20yef")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 23.0
+}]
 
 [node name="Bullet" type="Area2D" unique_id=1841938853]
 script = ExtResource("1_bullet")
@@ -21,3 +61,9 @@ autoplay = true
 
 [node name="HitSound" type="AudioStreamPlayer2D" parent="." unique_id=817169649]
 stream = ExtResource("3_c8dtc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2062413624]
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_tt28y")
+autoplay = "default"
+frame_progress = 0.89635205

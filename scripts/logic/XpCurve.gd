@@ -1,8 +1,8 @@
 extends RefCounted
 ## Pure XP, levelling and reward scaling rules.
 
-const STARTING_XP_TO_NEXT := 10
-const GROWTH := 1.4
+const STARTING_XP_TO_NEXT := 20
+const GROWTH := 1.2
 
 
 ## XP needed for the level after one that needed `current_to_next`.

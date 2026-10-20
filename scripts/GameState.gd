@@ -19,7 +19,7 @@ var stats := {
 	"max_health": 100,
 	"speed": 200.0,
 	"damage": 15,
-	"fire_rate": 1.0,
+	"fire_rate": 10.0,
 	"bullet_speed": 400.0,
 	"armor": 0,
 	"xp_mult": 1.0,
@@ -62,10 +62,10 @@ func reset() -> void:
 	player_level = 1
 	stats = {
 		"max_health": 100,
-		"speed": 200.0,
-		"damage": 15,
-		"fire_rate": 1.0,
-		"bullet_speed": 400.0,
+		"speed": 400.0,
+		"damage": 50,
+		"fire_rate": 3.5,
+		"bullet_speed": 2000.0,
 		"armor": 0,
 		"xp_mult": 1.0,
 		"gold_mult": 1.0,

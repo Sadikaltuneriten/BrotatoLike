@@ -12,6 +12,9 @@ func setup(dir: Vector2, spd: float, dmg: int) -> void:
 	direction = dir
 	speed = spd
 	damage = dmg
+	
+	# + PI (180 Grad) addieren, damit die Spitze in die Flugrichtung zeigt
+	rotation = direction.angle() + PI
 
 func _process(delta: float) -> void:
 	position += direction * speed * delta
@@ -20,6 +23,8 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _draw() -> void:
+	# (Falls du mittlerweile das AnimatedSprite2D nutzt, kannst du den draw_circle-Befehl 
+	# und die Methode hier theoretisch auch komplett löschen, damit der gelbe Punkt verschwindet)
 	draw_circle(Vector2.ZERO, 5.0, Color(1.0, 0.9, 0.1))
 
 func _on_body_entered(body: Node) -> void:

@@ -2,8 +2,14 @@
 
 [ext_resource type="Script" uid="uid://7ywo8r4ty2bg" path="res://scenes/player/Player.gd" id="1_player"]
 [ext_resource type="Texture2D" uid="uid://c1sx6h62uwv3g" path="res://player/Right - Running.png" id="2_4kuee"]
+[ext_resource type="Texture2D" uid="uid://brvyd4mmwl4dy" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_000.png" id="2_7oing"]
 [ext_resource type="Texture2D" uid="uid://qy4npilbsfdo" path="res://player/Front - Idle Blinking.png" id="2_524rm"]
 [ext_resource type="Texture2D" uid="uid://daq7j7hmwmqwx" path="res://player/Right - Walking.png" id="2_gfjak"]
+[ext_resource type="Texture2D" uid="uid://bfm04rkillnnw" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_001.png" id="3_5stf6"]
+[ext_resource type="Texture2D" uid="uid://bt3n8212jj1t5" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_002.png" id="4_180ig"]
+[ext_resource type="Texture2D" uid="uid://d2nln8ingbqk3" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_003.png" id="5_20koh"]
+[ext_resource type="Texture2D" uid="uid://da4q7b1xtlgc3" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_004.png" id="6_ov1oi"]
+[ext_resource type="Texture2D" uid="uid://dlur2pxwf7v2w" path="res://sprites/Giant Goblin/PNG/PNG Sequences/Right - Attacking/Right - Attacking_005.png" id="7_rn7t0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 18.0
@@ -203,6 +209,29 @@ region = Rect2(2520, 2880, 840, 720)
 [sub_resource type="SpriteFrames" id="SpriteFrames_tt28y"]
 animations = [{
 "frames": [{
+"duration": 0.5,
+"texture": ExtResource("2_7oing")
+}, {
+"duration": 0.5,
+"texture": ExtResource("3_5stf6")
+}, {
+"duration": 0.5,
+"texture": ExtResource("4_180ig")
+}, {
+"duration": 0.5,
+"texture": ExtResource("5_20koh")
+}, {
+"duration": 0.5,
+"texture": ExtResource("6_ov1oi")
+}, {
+"duration": 0.5,
+"texture": ExtResource("7_rn7t0")
+}],
+"loop": 1,
+"name": &"attack",
+"speed": 25.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bvphr")
 }, {
@@ -251,7 +280,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kk601")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"idle",
 "speed": 25.0
 }, {
@@ -371,5 +400,4 @@ shape = SubResource("CircleShape2D_1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=369579165]
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_tt28y")
-animation = &"idle"
-autoplay = "idle"
+animation = &"attack"

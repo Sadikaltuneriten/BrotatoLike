@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://djexbrastu8q3"
+path="res://.godot/imported/explosion (3).mp3-83d35a9d910d8af315bb98e2133f9adb.mp3str"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/20 FREE EXPLOSION SOUNDS/MP3/explosion (3).mp3"
+dest_files=["res://.godot/imported/explosion (3).mp3-83d35a9d910d8af315bb98e2133f9adb.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

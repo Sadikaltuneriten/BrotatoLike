@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cso48axe1lmst"
+path="res://.godot/imported/2_Handed_Weapon_2.wav-7f0a5937511c3757fbeafbe523ac313a.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/2_Handed_Weapon_2.wav"
+dest_files=["res://.godot/imported/2_Handed_Weapon_2.wav-7f0a5937511c3757fbeafbe523ac313a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dbp3ul7mv777t"
+path="res://.godot/imported/Flail_6.wav-35a3f31d6ba75664a6f85375f9b7eb3f.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Flail_6.wav"
+dest_files=["res://.godot/imported/Flail_6.wav-35a3f31d6ba75664a6f85375f9b7eb3f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c2md4b5mmv1ku"
+path="res://.godot/imported/Sword_7.wav-8a14ed6712016d9ca159ff9abf189d0d.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Sword_7.wav"
+dest_files=["res://.godot/imported/Sword_7.wav-8a14ed6712016d9ca159ff9abf189d0d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

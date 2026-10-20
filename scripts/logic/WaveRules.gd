@@ -2,7 +2,7 @@ extends RefCounted
 ## Pure wave timing and spawn rules. No scene tree access, so it can be unit tested.
 
 const WAVE_DURATION := 60.0
-const BASE_SPAWN_INTERVAL := 2.0
+const BASE_SPAWN_INTERVAL := 0.4
 const MIN_SPAWN_INTERVAL := 0.3
 const SPAWN_INTERVAL_STEP := 0.3
 const FIRST_SPAWN_DELAY := 1.5

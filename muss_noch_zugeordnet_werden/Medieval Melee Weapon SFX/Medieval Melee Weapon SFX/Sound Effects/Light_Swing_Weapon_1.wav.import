@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://byvs52k0wkr4i"
+path="res://.godot/imported/Light_Swing_Weapon_1.wav-69594b3aea4ab52c4e8524b88f0d9e29.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Light_Swing_Weapon_1.wav"
+dest_files=["res://.godot/imported/Light_Swing_Weapon_1.wav-69594b3aea4ab52c4e8524b88f0d9e29.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

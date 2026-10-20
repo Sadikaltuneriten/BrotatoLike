@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cswndsyggekn5"
+path="res://.godot/imported/Heavy_Swing_Weapon_5.wav-629d0f1d7c7bdfde24f03c8d5871f842.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Heavy_Swing_Weapon_5.wav"
+dest_files=["res://.godot/imported/Heavy_Swing_Weapon_5.wav-629d0f1d7c7bdfde24f03c8d5871f842.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

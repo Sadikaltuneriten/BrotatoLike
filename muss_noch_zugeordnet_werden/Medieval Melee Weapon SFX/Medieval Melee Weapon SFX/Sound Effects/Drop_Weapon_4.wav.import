@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cnb3ad6hx5lql"
+path="res://.godot/imported/Drop_Weapon_4.wav-5a43ed536a447e281b4bd14deb5c9c96.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Drop_Weapon_4.wav"
+dest_files=["res://.godot/imported/Drop_Weapon_4.wav-5a43ed536a447e281b4bd14deb5c9c96.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

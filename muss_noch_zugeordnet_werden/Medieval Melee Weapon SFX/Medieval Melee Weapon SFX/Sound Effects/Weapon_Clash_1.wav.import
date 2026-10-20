@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://40ae44ylx2m1"
+path="res://.godot/imported/Weapon_Clash_1.wav-1f5da14b1bc444404ea026955060527f.sample"
+
+[deps]
+
+source_file="res://muss_noch_zugeordnet_werden/Medieval Melee Weapon SFX/Medieval Melee Weapon SFX/Sound Effects/Weapon_Clash_1.wav"
+dest_files=["res://.godot/imported/Weapon_Clash_1.wav-1f5da14b1bc444404ea026955060527f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
