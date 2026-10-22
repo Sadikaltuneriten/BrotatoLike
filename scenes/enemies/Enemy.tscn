@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b3tcuqnnkaptm"]
 
 [ext_resource type="Script" uid="uid://b0nmwvd701s5p" path="res://scenes/enemies/Enemy.gd" id="1_enemy"]
-[ext_resource type="SpriteFrames" uid="uid://j7damq25tbod" path="res://resources/sprites_speeder.tres" id="2_7iym1"]
+[ext_resource type="SpriteFrames" uid="uid://n8c2v66cvr0m" path="res://resources/sprites_standard.tres" id="2_7iym1"]
 [ext_resource type="Texture2D" uid="uid://ckfkgeg3lhoq2" path="res://scenes/vfx/Empty.png" id="20_gkbe4"]
 [ext_resource type="Texture2D" uid="uid://jq3ewcwda0qb" path="res://scenes/sprites/Free - 2D Explosion Animations/explosion 4.png" id="21_jwt20"]
 [ext_resource type="AudioStream" uid="uid://b4136ue8gqfyr" path="res://sound_sfx/8_Atk_Magic_SFX/04_Fire_explosion_04_medium.wav" id="22_1l878"]
@@ -465,6 +465,7 @@ animations = [{
 }]
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1242871454]
+scale = Vector2(0.7, 0.7)
 script = ExtResource("1_enemy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=370795436]
@@ -472,18 +473,18 @@ scale = Vector2(3, 3)
 shape = SubResource("CircleShape2D_1")
 debug_color = Color(0.79342043, 0.42206046, 0.14228013, 0.41960785)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2010191112]
-scale = Vector2(0.3, 0.3)
-sprite_frames = ExtResource("2_7iym1")
-animation = &"walk"
-autoplay = "walk"
-
 [node name="death" type="AnimatedSprite2D" parent="." unique_id=460636170]
+visible = false
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_tt28y")
 animation = &"death"
 frame = 64
 frame_progress = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2010191112]
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("2_7iym1")
+animation = &"walk_right"
 
 [node name="deathsound" type="AudioStreamPlayer2D" parent="." unique_id=1152141352]
 position = Vector2(12, -14.000002)

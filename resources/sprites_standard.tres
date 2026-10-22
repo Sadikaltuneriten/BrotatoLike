@@ -1,82 +1,188 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://n8c2v66cvr0m"]
 
-[ext_resource type="Texture2D" uid="uid://dcmq8so4hok6q" path="res://Enemy/Minotaur_01_Walking_000.png" id="1_6mh3b"]
-[ext_resource type="Texture2D" uid="uid://bycjiu0ek3ysp" path="res://Enemy/Minotaur_01_Walking_001.png" id="2_n4560"]
-[ext_resource type="Texture2D" uid="uid://b44ol8apt2q31" path="res://Enemy/Minotaur_01_Walking_002.png" id="3_14jxj"]
-[ext_resource type="Texture2D" uid="uid://dtavkyesfvu3q" path="res://Enemy/Minotaur_01_Walking_003.png" id="4_r7k5q"]
-[ext_resource type="Texture2D" uid="uid://cn1vledmr32un" path="res://Enemy/Minotaur_01_Walking_004.png" id="5_jkjav"]
-[ext_resource type="Texture2D" uid="uid://dt656802tn5c" path="res://Enemy/Minotaur_01_Walking_005.png" id="6_wxylc"]
-[ext_resource type="Texture2D" uid="uid://kc0ycs7jborb" path="res://Enemy/Minotaur_01_Walking_006.png" id="7_pwhr5"]
-[ext_resource type="Texture2D" uid="uid://cx56u544kjyl7" path="res://Enemy/Minotaur_01_Walking_007.png" id="8_ryrh6"]
-[ext_resource type="Texture2D" uid="uid://bier77i6hcd6x" path="res://Enemy/Minotaur_01_Walking_008.png" id="9_5y6hy"]
-[ext_resource type="Texture2D" uid="uid://dkhwama0ohnhg" path="res://Enemy/Minotaur_01_Walking_009.png" id="10_fp2eg"]
-[ext_resource type="Texture2D" uid="uid://bg0lfphrgevdr" path="res://Enemy/Minotaur_01_Walking_010.png" id="11_km71f"]
-[ext_resource type="Texture2D" uid="uid://c6jwa0600up5w" path="res://Enemy/Minotaur_01_Walking_011.png" id="12_y5epd"]
-[ext_resource type="Texture2D" uid="uid://cyj1hf76cyo46" path="res://Enemy/Minotaur_01_Walking_012.png" id="13_l8xuj"]
-[ext_resource type="Texture2D" uid="uid://de2km5y82bjxt" path="res://Enemy/Minotaur_01_Walking_013.png" id="14_qsbpm"]
-[ext_resource type="Texture2D" uid="uid://fvhgpe1dgoxp" path="res://Enemy/Minotaur_01_Walking_014.png" id="15_hm6nw"]
-[ext_resource type="Texture2D" uid="uid://q0iykepyn0qi" path="res://Enemy/Minotaur_01_Walking_015.png" id="16_afld0"]
-[ext_resource type="Texture2D" uid="uid://dpliip3vch3qq" path="res://Enemy/Minotaur_01_Walking_016.png" id="17_hmii3"]
-[ext_resource type="Texture2D" uid="uid://dw48mywgg7f2r" path="res://Enemy/Minotaur_01_Walking_017.png" id="18_2sy2b"]
+[ext_resource type="Texture2D" uid="uid://cgo3n3nfajwow" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_000.png" id="1_igb1t"]
+[ext_resource type="Texture2D" uid="uid://cl5idlbvlyb56" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_001.png" id="2_y3m4x"]
+[ext_resource type="Texture2D" uid="uid://b5lofec6uidyr" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_002.png" id="3_jpskc"]
+[ext_resource type="Texture2D" uid="uid://xooiu3roqq7n" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_003.png" id="4_j83ay"]
+[ext_resource type="Texture2D" uid="uid://dpvog25qomal" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_004.png" id="5_4hxs6"]
+[ext_resource type="Texture2D" uid="uid://d0m2643cd5bn7" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_005.png" id="6_4bbl8"]
+[ext_resource type="Texture2D" uid="uid://dblqg5ohs01nk" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_006.png" id="7_uhl1h"]
+[ext_resource type="Texture2D" uid="uid://bfi4k00pj7ykx" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_007.png" id="8_h0nfp"]
+[ext_resource type="Texture2D" uid="uid://c0c44xjgwa2og" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_008.png" id="9_67kdb"]
+[ext_resource type="Texture2D" uid="uid://evnkghuta7ks" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_009.png" id="10_kaj5u"]
+[ext_resource type="Texture2D" uid="uid://bgdft12mvm710" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_010.png" id="11_xsu5x"]
+[ext_resource type="Texture2D" uid="uid://2jfhi84gecpo" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_011.png" id="12_wrf7x"]
+[ext_resource type="Texture2D" uid="uid://bdo25uali2le1" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_000.png" id="13_ro62q"]
+[ext_resource type="Texture2D" uid="uid://d5nxoqf22ocm" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_001.png" id="14_kb24k"]
+[ext_resource type="Texture2D" uid="uid://dx6oseh7lsh5c" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_002.png" id="15_g2uc5"]
+[ext_resource type="Texture2D" uid="uid://jgmdqltn1qj6" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_003.png" id="16_bnvg5"]
+[ext_resource type="Texture2D" uid="uid://bkoa7u03oyssn" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_004.png" id="17_5flv4"]
+[ext_resource type="Texture2D" uid="uid://2m1qwd6mj7qt" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_005.png" id="18_yov8p"]
+[ext_resource type="Texture2D" uid="uid://b4n5eptp0onvt" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_006.png" id="19_omtgh"]
+[ext_resource type="Texture2D" uid="uid://bocy3i4dqp3f0" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_007.png" id="20_wrghs"]
+[ext_resource type="Texture2D" uid="uid://ci3gede6pwabv" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_008.png" id="21_t71nb"]
+[ext_resource type="Texture2D" uid="uid://i4saetefs66g" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_009.png" id="22_dvxbi"]
+[ext_resource type="Texture2D" uid="uid://50rpgwt0235r" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_010.png" id="23_nuv46"]
+[ext_resource type="Texture2D" uid="uid://caogi0j630hvs" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Hurt/Minotaur_01_Hurt_011.png" id="24_6gj0g"]
+[ext_resource type="Texture2D" uid="uid://bx8y6cwdj3o53" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_000.png" id="25_rvg2f"]
+[ext_resource type="Texture2D" uid="uid://b5lyjy5acgegf" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_001.png" id="26_4gyof"]
+[ext_resource type="Texture2D" uid="uid://qywc3nitw7vy" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_002.png" id="27_rbaeu"]
+[ext_resource type="Texture2D" uid="uid://bqtixyoc0q34f" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_003.png" id="28_7iiif"]
+[ext_resource type="Texture2D" uid="uid://o345cyp5m1t7" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_004.png" id="29_wrl07"]
+[ext_resource type="Texture2D" uid="uid://45d48p27btkv" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_005.png" id="30_p1oji"]
+[ext_resource type="Texture2D" uid="uid://dpo3gbv30lqbq" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_006.png" id="31_cscpy"]
+[ext_resource type="Texture2D" uid="uid://cqw20xhjs065h" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_007.png" id="32_sesdu"]
+[ext_resource type="Texture2D" uid="uid://c5e8oum8mwb81" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_008.png" id="33_ci5yp"]
+[ext_resource type="Texture2D" uid="uid://dp4lvnj3vvbog" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_009.png" id="34_xc86s"]
+[ext_resource type="Texture2D" uid="uid://bnemasnnkx2ju" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_010.png" id="35_62x63"]
+[ext_resource type="Texture2D" uid="uid://4elnl3umbjq5" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_011.png" id="36_5wy65"]
+[ext_resource type="Texture2D" uid="uid://dvgx4xupqetoe" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_012.png" id="37_g7hn1"]
+[ext_resource type="Texture2D" uid="uid://b10mb1mc8tki8" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_013.png" id="38_pasqm"]
+[ext_resource type="Texture2D" uid="uid://bhmoxi6qq5sib" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_014.png" id="39_p2tn4"]
+[ext_resource type="Texture2D" uid="uid://dymg44k024a8a" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_015.png" id="40_v3hb3"]
+[ext_resource type="Texture2D" uid="uid://26yak8ed5bjm" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_016.png" id="41_1vi8v"]
+[ext_resource type="Texture2D" uid="uid://dk22pukhsmbir" path="res://muss_noch_zugeordnet_werden/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Walking/Minotaur_01_Walking_017.png" id="42_74l0p"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_6mh3b")
+"texture": ExtResource("1_igb1t")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_n4560")
+"texture": ExtResource("2_y3m4x")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_14jxj")
+"texture": ExtResource("3_jpskc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_r7k5q")
+"texture": ExtResource("4_j83ay")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_jkjav")
+"texture": ExtResource("5_4hxs6")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_wxylc")
+"texture": ExtResource("6_4bbl8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_pwhr5")
+"texture": ExtResource("7_uhl1h")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_ryrh6")
+"texture": ExtResource("8_h0nfp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_5y6hy")
+"texture": ExtResource("9_67kdb")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_fp2eg")
+"texture": ExtResource("10_kaj5u")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_km71f")
+"texture": ExtResource("11_xsu5x")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_y5epd")
+"texture": ExtResource("12_wrf7x")
+}],
+"loop": 0,
+"name": &"attack_right",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_ro62q")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_l8xuj")
+"texture": ExtResource("14_kb24k")
 }, {
 "duration": 1.0,
-"texture": ExtResource("14_qsbpm")
+"texture": ExtResource("15_g2uc5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("15_hm6nw")
+"texture": ExtResource("16_bnvg5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("16_afld0")
+"texture": ExtResource("17_5flv4")
 }, {
 "duration": 1.0,
-"texture": ExtResource("17_hmii3")
+"texture": ExtResource("18_yov8p")
 }, {
 "duration": 1.0,
-"texture": ExtResource("18_2sy2b")
+"texture": ExtResource("19_omtgh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_wrghs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_t71nb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_dvxbi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_nuv46")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_6gj0g")
+}],
+"loop": 0,
+"name": &"take_damage_right",
+"speed": 26.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("25_rvg2f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_4gyof")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_rbaeu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_7iiif")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_wrl07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_p1oji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_cscpy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_sesdu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_ci5yp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_xc86s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_62x63")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_5wy65")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_g7hn1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_pasqm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_p2tn4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_v3hb3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_1vi8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_74l0p")
 }],
 "loop": 1,
-"name": &"walk",
-"speed": 24.0
+"name": &"walk_right",
+"speed": 26.0
 }]

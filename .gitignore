@@ -1,8 +1,10 @@
 # Godot 4 .gitignore
 
 # Godot-specific ignores
+muss_noch_zugeordnet_werden/
 .godot/
 *.translation
+addons/
 
 # Mono-specific ignores
 .mono/

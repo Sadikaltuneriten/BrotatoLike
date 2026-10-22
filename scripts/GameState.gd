@@ -14,17 +14,22 @@ var gold: int = 0
 var xp: int = 0
 var xp_to_next: int = 10
 var player_level: int = 1
+var bomb_count: int = 0
 
 var stats := {
-	"max_health": 100,
-	"speed": 200.0,
-	"damage": 15,
-	"fire_rate": 10.0,
-	"bullet_speed": 400.0,
-	"armor": 0,
-	"xp_mult": 1.0,
-	"gold_mult": 1.0,
-}
+		"max_health": 100,
+		"speed": 200.0,
+		"damage": 15,
+		"fire_rate": 0.1,
+		"bullet_speed": 400.0,
+		"armor": 0,
+		"xp_mult": 1.0,
+		"gold_mult": 1.0,
+		"bomb_damage": 80,
+		"bomb_radius": 120.0,
+		"bomb_fuse": 3.0,
+		"max_bombs": 3,
+	}
 
 const UPGRADES = [
 	{"label": "+25 Max HP",       "stat": "max_health",   "value": 25,   "cost": 8},
@@ -65,8 +70,12 @@ func reset() -> void:
 		"speed": 400.0,
 		"damage": 50,
 		"fire_rate": 3.5,
-		"bullet_speed": 2000.0,
+		"bullet_speed": 3000.0,
 		"armor": 0,
 		"xp_mult": 1.0,
 		"gold_mult": 1.0,
+		"bomb_damage": 80,
+		"bomb_radius": 500.0,
+		"bomb_fuse": 10.0,
+		"max_bombs": 10,
 	}

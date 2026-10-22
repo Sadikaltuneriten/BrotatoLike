@@ -5,12 +5,15 @@ const BULLET_SCENE = preload("res://scenes/weapons/Bullet.tscn")
 var fire_timer := 0.0
 
 func _process(delta: float) -> void:
+	# Kein Feuern, wenn der Spieler tot ist
+	var owner: Node2D = get_parent()
+	if owner == null or not owner.is_inside_tree():
+		return
 	# 1. Schuss-Timer herunterzählen
 	fire_timer -= delta
 	if fire_timer <= 0.0:
 		_shoot()
 		fire_timer = 1.0 / float(GameState.stats.fire_rate)
-
 	# 2. Nur noch zum nächsten Gegner drehen (keine Position-Verschiebung mehr)
 	var target := _nearest_enemy()
 	if target:

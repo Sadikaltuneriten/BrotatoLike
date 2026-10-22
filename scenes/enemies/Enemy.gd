@@ -19,6 +19,9 @@ var player: Node2D = null
 var contact_timer := 0.0
 const CONTACT_RATE := 0.5
 var is_dying := false
+var _event_animation_active := false   # verhindert überlappende Event-Coroutinen
+
+
 
 const EnemyScaling = preload("res://scripts/logic/EnemyScaling.gd")
 
@@ -53,8 +56,9 @@ func setup_type(type: String, wave: int) -> void:
 					sprite_node.sprite_frames = FRAMES_STANDARD # Standard-Spriteset
 
 	# Animation direkt nach dem Zuweisen starten
-	if sprite_node and sprite_node.sprite_frames.has_animation("walk"):
-		sprite_node.play("walk")
+	if sprite_node and sprite_node.sprite_frames.has_animation("walk_right"):
+		sprite_node.play("walk_right")
+
 
 	var shape_node := get_node_or_null("CollisionShape2D")
 	if shape_node and shape_node.shape is CircleShape2D:
@@ -66,13 +70,14 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 	
 	var sprite := get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
-	if sprite and sprite.sprite_frames.has_animation("walk"):
-		sprite.play("walk")
+	if sprite and sprite.sprite_frames.has_animation("walk_right"):
+		sprite.play("walk_right")
+
 
 func _physics_process(delta: float) -> void:
 	if is_dying or player == null:
 		return
-		
+	
 	velocity = (player.global_position - global_position).normalized() * speed
 	move_and_slide()
 
@@ -88,17 +93,66 @@ func _physics_process(delta: float) -> void:
 		for i in range(get_slide_collision_count()):
 			var col := get_slide_collision(i)
 			if col and col.get_collider() and col.get_collider().is_in_group("player"):
-				col.get_collider().take_damage(damage)
+				col.get_collider().take_damage(damage, global_position)
 				contact_timer = CONTACT_RATE
+				# Angriff-Animation abspielen, danach automatisch zurück auf walk
+				_play_event_animation("attack_right")
 				break
 
 func _draw() -> void:
 	pass
 
-func take_damage(amount: int) -> void:
+# Spielt eine einmalige Event-Animation (z. B. "attack_right") ab und wechselt
+# danach automatisch wieder auf "walk_right".
+# - Guard-Flag verhindert, dass mehrere Hits parallel stapeln
+# - Dauer wird aus Framezahl/Speed berechnet, damit es auch bei
+#   loop = 1 korrekt zurück auf walk_right wechselt
+func _play_event_animation(anim_name: String) -> void:
 	if is_dying:
 		return
-		
+	# Nur eine Event-Animation gleichzeitig abspielen
+	if _event_animation_active:
+		return
+
+	var sprite := get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if not sprite or not sprite.sprite_frames:
+		return
+	if not sprite.sprite_frames.has_animation(anim_name):
+		return
+
+	_event_animation_active = true
+	# flip_h NUR nicht anfassen! Die *_right-Varianten zeigen nach rechts und
+	# werden von _physics_process über flip_h an die Bewegungsrichtung angepasst.
+	sprite.play(anim_name)
+
+	# Dauer der Animation in Sekunden ermitteln
+	var frame_count := sprite.sprite_frames.get_frame_count(anim_name)
+	var anim_speed := sprite.sprite_frames.get_animation_speed(anim_name)
+	var frame_duration := 1.0
+	if frame_count > 0:
+		frame_duration = sprite.sprite_frames.get_frame_duration(anim_name, 0)
+
+
+	var duration := float(frame_count) * frame_duration / maxf(anim_speed, 0.001)
+
+	# Auf das Ende warten (Timer statt animation_finished, damit loop=1 auch klappt)
+	await get_tree().create_timer(duration).timeout
+
+	# Enemy könnte zwischenzeitlich gestorben sein
+	if is_dying or not is_inside_tree():
+		_event_animation_active = false
+		return
+	_event_animation_active = false
+
+	# Zurück auf den normalen Laufzyklus (flip_h bleibt wie von _physics_process gesetzt)
+	if sprite.sprite_frames.has_animation("walk_right"):
+		sprite.play("walk_right")
+
+
+func take_damage(amount: int, source_pos: Vector2 = Vector2.ZERO) -> void:
+	if is_dying:
+		return
+	
 	health -= amount
 	
 	var hit_effect := HIT_EFFECT_SCENE.instantiate()
@@ -109,8 +163,12 @@ func take_damage(amount: int) -> void:
 	else:
 		get_parent().add_child(hit_effect)
 	
+	# Take-Damage-Animation abspielen, danach automatisch zurück auf walk
+	_play_event_animation("take_damage_right")
+	
 	if health <= 0:
 		die()
+
 
 func die() -> void:
 	if is_dying:
@@ -124,10 +182,12 @@ func die() -> void:
 	set_deferred("collision_mask", 0)
 	velocity = Vector2.ZERO
 	
-	# Korrigierter Zugriff auf den AnimatedSprite2D und den Sound
+	# Korrigierter Zugriff auf den death-Node und den Sound
 	var sprite := get_node_or_null("death") as AnimatedSprite2D
 	if sprite and sprite.sprite_frames.has_animation("death"):
+		sprite.visible = true
 		sprite.play("death")
+
 	
 	var death_sound := get_node_or_null("deathsound") as AudioStreamPlayer2D
 	if death_sound and death_sound.stream:

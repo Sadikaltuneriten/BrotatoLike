@@ -6,8 +6,8 @@ var damage := 15
 var lifetime := 3.0
 
 func _ready() -> void:
+	add_to_group("bullets")
 	body_entered.connect(_on_body_entered)
-
 func setup(dir: Vector2, spd: float, dmg: int) -> void:
 	direction = dir
 	speed = spd

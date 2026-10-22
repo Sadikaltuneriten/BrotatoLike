@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://b2dpi6dm0fjgo"]
+
+[ext_resource type="Script" uid="uid://cxym1x7hhjw4j" path="res://scenes/bombs/Bomb.gd" id="1_oggj6"]
+[ext_resource type="Texture2D" uid="uid://dboq4vd2ktfdp" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_01.png" id="2_icy7x"]
+[ext_resource type="Texture2D" uid="uid://owtktnvyq226" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_02.png" id="3_ckqe5"]
+[ext_resource type="Texture2D" uid="uid://dcvpgpip6yjpy" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_03.png" id="4_qbhg8"]
+[ext_resource type="Texture2D" uid="uid://endg3ckgp06k" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_04.png" id="5_kfeao"]
+[ext_resource type="Texture2D" uid="uid://cjg8iewjukt7" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_05.png" id="6_twphb"]
+[ext_resource type="Texture2D" uid="uid://bb3d1u02y8slj" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_06.png" id="7_3bg45"]
+[ext_resource type="Texture2D" uid="uid://ckxm8hq0dgg76" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_07.png" id="8_tdhf5"]
+[ext_resource type="Texture2D" uid="uid://bs5lu1bvpt5yr" path="res://sprites/Fire Ball/PNG/Fire Ball_Frame_08.png" id="9_54f68"]
+[ext_resource type="Texture2D" uid="uid://d3bc8khkoe3dq" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_01.png" id="10_7in4p"]
+[ext_resource type="Texture2D" uid="uid://crn03x6pi8x36" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_02.png" id="11_14imh"]
+[ext_resource type="Texture2D" uid="uid://da4itiqm7j3nj" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_03.png" id="12_vqu2b"]
+[ext_resource type="Texture2D" uid="uid://c6g7jiastl1op" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_04.png" id="13_igsjq"]
+[ext_resource type="Texture2D" uid="uid://cmdij25qrhako" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_05.png" id="14_opfyl"]
+[ext_resource type="Texture2D" uid="uid://boeqrd4k46hdi" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_06.png" id="15_d1n4d"]
+[ext_resource type="Texture2D" uid="uid://cd6wxu7vbr5iw" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_07.png" id="16_noess"]
+[ext_resource type="Texture2D" uid="uid://qysi6tx74x41" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_08.png" id="17_batwk"]
+[ext_resource type="Texture2D" uid="uid://b7hhxh3qro83g" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_09.png" id="18_6xipa"]
+[ext_resource type="Texture2D" uid="uid://cte654asgfir5" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_10.png" id="19_34sei"]
+[ext_resource type="Texture2D" uid="uid://dm02kdquatdio" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_11.png" id="20_h8qks"]
+[ext_resource type="Texture2D" uid="uid://ct1vtnyb77syl" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_12.png" id="21_0xjtf"]
+[ext_resource type="Texture2D" uid="uid://dyurqpccgwldg" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_13.png" id="22_0ab6b"]
+[ext_resource type="Texture2D" uid="uid://we27x6k8fdfb" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_14.png" id="23_jch75"]
+[ext_resource type="Texture2D" uid="uid://li7fu62uld0g" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_15.png" id="24_8wiyw"]
+[ext_resource type="Texture2D" uid="uid://i5s6kpyfm6b8" path="res://sprites/Smoke Explosion/PNG/Smoke Explosion_Frame_16.png" id="25_e23p3"]
+[ext_resource type="AudioStream" uid="uid://b4136ue8gqfyr" path="res://sound_sfx/8_Atk_Magic_SFX/04_Fire_explosion_04_medium.wav" id="26_14imh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmph6"]
+radius = 823.87
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bjpry"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_icy7x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ckqe5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qbhg8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kfeao")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_twphb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_3bg45")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_tdhf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_54f68")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 22.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oggj6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_7in4p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_14imh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_vqu2b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_igsjq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_opfyl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_d1n4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_noess")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_batwk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_6xipa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_34sei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_h8qks")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_0xjtf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_0ab6b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_jch75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_8wiyw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_e23p3")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 25.0
+}]
+
+[node name="Bomb" type="Area2D" unique_id=369696536]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_oggj6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=928253325]
+shape = SubResource("CircleShape2D_lmph6")
+
+[node name="IdleSprite" type="AnimatedSprite2D" parent="." unique_id=1849486719]
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_bjpry")
+autoplay = "default"
+frame_progress = 0.8896434
+
+[node name="ExplosionSprite" type="AnimatedSprite2D" parent="." unique_id=1759984365]
+visible = false
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_oggj6")
+
+[node name="Explosion_Sound" type="AudioStreamPlayer2D" parent="." unique_id=1353152785]
+stream = ExtResource("26_14imh")
+volume_db = 11.86
