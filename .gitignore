@@ -5,7 +5,7 @@ muss_noch_zugeordnet_werden/
 .godot/
 *.translation
 addons/
-
+*.DS_Store
 # Mono-specific ignores
 .mono/
 data_*/
