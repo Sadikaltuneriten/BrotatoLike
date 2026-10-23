@@ -70,9 +70,11 @@ func setup_type(type: String, wave: int) -> void:
 func _ready() -> void:
 	add_to_group("enemies")
 	player = get_tree().get_first_node_in_group("player")
-	# Companion-Referenz (nur relevant im 2-Spieler-Modus)
-	var companions := get_tree().get_nodes_in_group("companion")
-	if not companions.is_empty():
+	# Companion nur im 2-Spieler-Modus als Ziel und Kollisionspartner einbinden.
+	# Im Solo-Modus läuft der Companion nur mit und ist unverwundbar.
+	if GameState.is_coop():
+		collision_mask |= 1 << 1   # Ebene 2 = Companion
+		var companions := get_tree().get_nodes_in_group("companion")
 		_target_players = [player] + companions
 	else:
 		_target_players = [player]
@@ -82,7 +84,11 @@ func _ready() -> void:
 		sprite.play("walk_right")
 
 func _physics_process(delta: float) -> void:
-	if is_dying or player == null:
+	# Hinweis: `player` kann im Koop sterben und zur nächsten Welle respawnen.
+	# Deshalb NICHT auf `player == null` prüfen (eine gefreete Referenz ist
+	# == null und würde den Gegner einfrieren), sondern das Ziel immer über
+	# _target_players auflösen – dort werden ungültige Referenzen übersprungen.
+	if is_dying:
 		return
 
 	# ── Freeze-Status (Eis-Effekt) ──────────────────────────────────────────────
@@ -107,9 +113,13 @@ func _physics_process(delta: float) -> void:
 	if contact_timer <= 0.0:
 		for i in range(get_slide_collision_count()):
 			var col := get_slide_collision(i)
-			# Treffer auf Player UND Companion (beide nehmen Schaden)
-			if col and col.get_collider() and (col.get_collider().is_in_group("player") or col.get_collider().is_in_group("companion")):
-				col.get_collider().take_damage(damage, global_position)
+			# Treffer auf den Spieler (und im Koop-Modus auch auf den Companion)
+			var hit_body = col.get_collider() if col else null
+			if hit_body == null:
+				continue
+			var hits_companion: bool = GameState.is_coop() and hit_body.is_in_group("companion")
+			if hit_body.is_in_group("player") or hits_companion:
+				hit_body.take_damage(damage, global_position)
 				contact_timer = CONTACT_RATE
 				# Angriff-Animation abspielen, danach automatisch zurück auf walk
 				_play_event_animation("attack_right")

@@ -4,11 +4,15 @@ const XpCurve = preload("res://scripts/logic/XpCurve.gd")
 const ShopRules = preload("res://scripts/logic/ShopRules.gd")
 const LevelUpRules = preload("res://scripts/logic/LevelUpRules.gd")
 
+# ── Signale ────────────────────────────────────────────────────────────────────
 signal health_changed(current: int, maximum: int)
 signal gold_changed(amount: int)
 signal xp_changed(current: int, next_level: int)
 signal leveled_up(new_level: int)
+signal player_hp_changed(new_hp)
+signal companion_hp_changed(new_hp)
 
+# ── Fortschritt / Ressourcen ───────────────────────────────────────────────────
 var wave: int = 1
 var gold: int = 0
 var xp: int = 0
@@ -16,8 +20,18 @@ var xp_to_next: int = 10
 var player_level: int = 1
 var bomb_count: int = 0
 
-# ── Spielmodus ─────────────────────────────────────────────────────────────────
-# 1 = Solo (Companion ist KI), 2 = Koop (Companion ist steuerbar)
+# ── HP (eigenes System mit Signalen, kompatibel mit alter Logik) ───────────────
+var player_hp: int = 100:
+	set(value):
+		player_hp = value
+		player_hp_changed.emit(value)
+
+var companion_hp: int = 100:
+	set(value):
+		companion_hp = value
+		companion_hp_changed.emit(value)
+
+# ── Spielmodus (1 = Solo, 2 = Koop) ───────────────────────────────────────────
 var game_mode: int = 1
 
 func is_coop() -> bool:
@@ -116,11 +130,17 @@ func add_gold(amount: int) -> void:
 	gold += XpCurve.scaled_gold(amount, stats.gold_mult)
 	emit_signal("gold_changed", gold)
 
+# ── Reset bei neuem Spiel / Menü-Auswahl ──────────────────────────────────────
 func reset() -> void:
 	wave = 1
 	gold = 0
 	xp = 0
 	xp_to_next = 10
 	player_level = 1
+	bomb_count = 0
+	# Stats neu instanziieren (erfolgt beim Aufruf, da make_base_stats() eine Funktion ist)
 	stats = make_base_stats()
 	companion_stats = make_base_stats()
+	# HP zurücksetzen
+	player_hp = 100
+	companion_hp = 100

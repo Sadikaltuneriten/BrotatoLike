@@ -395,9 +395,15 @@ animations = [{
 "speed": 24.0
 }]
 
-[node name="Companion" type="Node2D" unique_id=1974436960]
+[sub_resource type="CircleShape2D" id="CircleShape2D_companion"]
+radius = 60.0
+
+[node name="Companion" type="CharacterBody2D" unique_id=1974436960]
 scale = Vector2(0.3, 0.3)
 script = ExtResource("1_urxjb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1900000001]
+shape = SubResource("CircleShape2D_companion")
 
 [node name="CompanionSprite" type="AnimatedSprite2D" parent="." unique_id=2057768678]
 sprite_frames = SubResource("SpriteFrames_wkyam")

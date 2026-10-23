@@ -30,6 +30,7 @@ const MUSIC_DIR := "res://sound_sfx/lvl_musik"
 var _vol_percent_label: Label = null    # Live-Anzeige im Pause-Menü
 
 var hud_health: Label
+var hud_companion_health: Label   # nur im 2-Spieler-Modus sichtbar
 var hud_wave:   Label
 var hud_gold:   Label
 var hud_timer:  Label
@@ -44,24 +45,54 @@ func _ready() -> void:
 	_setup_hud()
 	_setup_music()
 
-	player = PLAYER_SCENE.instantiate()
-	player.died.connect(_on_player_died)
-	add_child(player)
-	player.global_position = get_viewport_rect().size / 2
-
-	# Companion (Begleitfigur) instanzieren
-	companion = COMPANION_SCENE.instantiate()
-	add_child(companion)
-	if companion.has_method("setup"):
-		companion.setup(player)
-
+	# Signale zuerst verbinden – _spawn_player() meldet Leben bereits an die HUD
 	GameState.health_changed.connect(_on_health_changed)
 	GameState.gold_changed.connect(_on_gold_changed)
 	GameState.xp_changed.connect(_on_xp_changed)
 	if LevelUpRules.is_enabled():
 		GameState.leveled_up.connect(_on_leveled_up)
 
+	_spawn_player()
+	_spawn_companion()
+
 	_start_wave()
+
+# ── Spieler / Companion erzeugen ─────────────────────────────────────────────
+
+func _spawn_player() -> void:
+	player = PLAYER_SCENE.instantiate()
+	player.died.connect(_on_player_died)
+	add_child(player)
+	player.global_position = get_viewport_rect().size / 2
+	GameState.health_changed.emit(int(player.health), int(GameState.stats.max_health))
+
+
+func _spawn_companion() -> void:
+	companion = COMPANION_SCENE.instantiate()
+	add_child(companion)
+	if companion.has_method("setup") and player and is_instance_valid(player):
+		companion.setup(player)
+
+	# ── Companion-Leben (nur im 2-Spieler-Modus relevant) ──────────────────────
+	if companion.has_signal("health_changed"):
+		companion.health_changed.connect(_on_companion_health_changed)
+		# Initialwert setzen – das Signal aus _ready() kam vor dem Verbinden.
+		_on_companion_health_changed(int(companion.health), int(companion.max_health))
+	if companion.has_signal("died"):
+		companion.died.connect(_on_companion_died)
+
+
+# Gefallene Spieler zu Beginn einer Welle wiederbeleben (Comeback im 2P-Modus).
+func _ensure_players_alive() -> void:
+	var player_respawned := false
+	if player == null or not is_instance_valid(player):
+		_spawn_player()
+		player_respawned = true
+	if companion == null or not is_instance_valid(companion):
+		_spawn_companion()
+	elif player_respawned and companion.has_method("setup"):
+		# Companion lebt noch, muss aber wieder auf den neuen Spieler zeigen.
+		companion.setup(player)
 
 func _process(delta: float) -> void:
 	_update_desert()
@@ -113,6 +144,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _start_wave() -> void:
 	in_shop = false
+	# Zu Wellenbeginn: gefallene Partner wiederbeleben und alle vollständig heilen
+	_ensure_players_alive()
+	if player and is_instance_valid(player):
+		player.health = int(GameState.stats.max_health)
+		GameState.health_changed.emit(player.health, int(GameState.stats.max_health))
+	if companion and is_instance_valid(companion):
+		companion.health = companion.max_health
+		companion.health_changed.emit(companion.health, companion.max_health)
 	wave_timer  = WaveRules.WAVE_DURATION
 	spawn_timer = WaveRules.FIRST_SPAWN_DELAY
 	hud_wave.text = "Wave %d" % GameState.wave
@@ -246,9 +285,7 @@ func _close_shop() -> void:
 		shop_layer.queue_free()
 		shop_layer = null
 	_shop_items = []
-	if player and is_instance_valid(player):
-		player.health = GameState.stats.max_health
-		GameState.health_changed.emit(player.health, GameState.stats.max_health)
+	# Wiederbeleben und Heilen passiert jetzt zentral in _start_wave()
 	_start_wave()
 	_maybe_open_level_up()
 
@@ -495,6 +532,20 @@ func _resume_game() -> void:
 # ── Death ────────────────────────────────────────────────────────────────────
 
 func _on_player_died() -> void:
+	# 2-Spieler-Modus: Solange der Companion noch lebt, läuft der Run weiter.
+	# Der gefallene Spieler kommt zu Beginn der nächsten Welle zurück.
+	if GameState.is_coop() and companion and is_instance_valid(companion):
+		if player and is_instance_valid(player):
+			player.queue_free()
+		player = null
+		_set_hud_ko(hud_health, "P1: KO")
+		_show_notice("Spieler 1 ist gefallen – überlebe bis zur nächsten Welle!")
+		return
+	_end_run()
+
+
+# Gemeinsames Lauf-Ende: Solo-Tod oder beide Spieler gefallen.
+func _end_run() -> void:
 	in_shop = true
 	game_over = true
 	_pending_levels.clear()
@@ -504,6 +555,35 @@ func _on_player_died() -> void:
 		bomb.queue_free()
 	_stop_wave_music()
 	_show_game_over()
+
+# Blendet eine kurze Hinweis-Meldung ein, die nach ein paar Sekunden ausfadet.
+func _show_notice(text: String) -> void:
+	var layer := CanvasLayer.new()
+	add_child(layer)
+
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_size_override("font_size", 30)
+	label.add_theme_color_override("font_color", Color(1.0, 0.85, 0.3))
+	label.add_theme_color_override("font_shadow_color", Color.BLACK)
+	label.add_theme_constant_override("shadow_offset_x", 2)
+	label.add_theme_constant_override("shadow_offset_y", 2)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	label.offset_top = 70
+	label.offset_bottom = 120
+	layer.add_child(label)
+
+	var tween := create_tween()
+	tween.tween_interval(4.0)
+	tween.tween_property(label, "modulate:a", 0.0, 1.0)
+	tween.tween_callback(layer.queue_free)
+
+func _set_hud_ko(label: Label, text: String) -> void:
+	if label == null:
+		return
+	label.text = text
+	label.add_theme_color_override("font_color", Color(0.65, 0.65, 0.65))
 
 func _show_game_over() -> void:
 	var layer := CanvasLayer.new()
@@ -656,7 +736,14 @@ func _setup_hud() -> void:
 	hud_level  = _make_label("Lv 1")
 	hud_bomb   = _make_label("💣 0/3 [Q]")
 
-	for lbl in [hud_health, hud_wave, hud_gold, hud_timer, hud_level, hud_bomb]:
+	# Companion-Lebensanzeige nur im 2-Spieler-Modus einblenden
+	var hud_labels: Array = [hud_health]
+	if GameState.is_coop():
+		hud_companion_health = _make_label("P2 HP: 100/100")
+		hud_labels.append(hud_companion_health)
+	hud_labels.append_array([hud_wave, hud_gold, hud_timer, hud_level, hud_bomb])
+
+	for lbl in hud_labels:
 		bar.add_child(lbl)
 
 	var hint := Label.new()
@@ -696,6 +783,28 @@ func _on_health_changed(current: int, maximum: int) -> void:
 	var pct := float(current) / float(maximum)
 	var col := Color.RED if pct < 0.3 else (Color(1.0, 0.65, 0.0) if pct < 0.6 else Color.WHITE)
 	hud_health.add_theme_color_override("font_color", col)
+
+# ── Companion-Leben ──────────────────────────────────────────────────────────
+
+func _on_companion_health_changed(current: int, maximum: int) -> void:
+	GameState.companion_hp = current
+	if hud_companion_health == null:
+		return
+	hud_companion_health.text = "P2 HP: %d/%d" % [current, maximum]
+	var pct := float(current) / maxf(float(maximum), 1.0)
+	var col := Color.RED if pct < 0.3 else (Color(1.0, 0.65, 0.0) if pct < 0.6 else Color.WHITE)
+	hud_companion_health.add_theme_color_override("font_color", col)
+
+
+func _on_companion_died() -> void:
+	# 2-Spieler-Modus: Solange Spieler 1 noch lebt, läuft der Run weiter.
+	# Der Companion kommt zu Beginn der nächsten Welle zurück.
+	if GameState.is_coop() and player and is_instance_valid(player):
+		companion = null
+		_set_hud_ko(hud_companion_health, "P2: KO")
+		_show_notice("Spieler 2 ist gefallen – überlebe bis zur nächsten Welle!")
+		return
+	_end_run()
 
 func _on_gold_changed(amount: int) -> void:
 	hud_gold.text = "Gold: %d" % amount

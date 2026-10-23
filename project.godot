@@ -33,7 +33,7 @@ gameplay/level_up_choice=true
 
 window/size/viewport_width=3440
 window/size/viewport_height=1440
-window/stretch/scale=1.22
+window/stretch/scale=2.01
 
 [editor_plugins]
 

@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 # ── Companion-Properties ───────────────────────────────────────────────────────
 @export var follow_speed: float = 1.0       # Wie schnell die Figur folgt
@@ -19,6 +19,15 @@ var _anim_sprite: AnimatedSprite2D = null
 var _player: Node2D = null
 var _current_dir := Vector2.ZERO
 
+# ── Leben / Schaden (damit Gegner den Companion im 2P-Modus treffen können) ────
+var health: int = 100
+var max_health: int = 100
+var is_dying := false
+
+signal died
+# Wird an die HUD gemeldet, damit der Companion-Lebensbalken aktualisiert wird.
+signal health_changed(current: int, maximum: int)
+
 # Wander-State
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer := 1.0
@@ -31,12 +40,22 @@ var _attack_direction := Vector2.ZERO
 
 func _ready() -> void:
 	add_to_group("companion")
+	# Kollision nur im 2-Spieler-Modus aktiv: nur dann sollen Gegner den
+	# Companion treffen können. Ebene 2 wird ausschließlich von Gegnern
+	# geprüft (siehe Enemy.gd) – der Spieler läuft ungehindert durch sie.
+	#   Solo-Modus: Ebene 0 = keine Kollision, Companion ist unverwundbar.
+	collision_layer = (1 << 1) if GameState.is_coop() else 0
+	collision_mask = 0
 	_anim_sprite = get_node_or_null("CompanionSprite") as AnimatedSprite2D
 	# Nahkampf-Werte aus den Companion-Stats ableiten (erweiterbar)
 	var cs: Dictionary = GameState.companion_stats
 	melee_range = float(cs.range)
 	melee_damage = int(cs.damage * cs.damage_mult)
 	melee_cooldown = 1.0 / maxf(cs.attack_speed, 0.01)
+	# Leben aus den Companion-Stats
+	health = int(cs.max_health)
+	max_health = health
+	health_changed.emit(health, max_health)
 	# speed_scale sofort setzen
 	if _anim_sprite:
 		_anim_sprite.speed_scale = anim_speed_scale
@@ -47,6 +66,9 @@ func setup(player_ref: Node2D) -> void:
 		global_position = _player.global_position + offset
 
 func _physics_process(delta: float) -> void:
+	# Toter Companion stoppt alle Logik
+	if is_dying:
+		return
 	# ── Modus-Zweig: 2 Spieler = hand­gesteuert (WASD), 1 Spieler = KI ───────────
 	if GameState.is_coop():
 		_move_coop()
@@ -279,3 +301,28 @@ func _draw() -> void:
 		draw_line(points[i], points[i + 1], Color(0.5, 1.0, 0.5, 0.5), 3.0)
 
 	draw_circle(Vector2.ZERO, 5.0, Color(0.5, 1.0, 0.5, 0.3))
+
+# ── Schaden nehmen (nur im 2-Spieler-Modus möglich) ────────────────────────────
+func take_damage(amount: int, _source_pos: Vector2 = Vector2.ZERO) -> void:
+	# Im Solo-Modus läuft der Companion nur mit und ist unverwundbar.
+	if is_dying or not GameState.is_coop():
+		return
+	# Rüstung aus den Companion-Stats berücksichtigen
+	var stats: Dictionary = GameState.companion_stats
+	var actual: int = max(1, amount - int(stats.armor))
+	health -= actual
+	health = maxi(health, 0)
+	health_changed.emit(health, max_health)
+	if health <= 0:
+		die()
+
+
+func die() -> void:
+	if is_dying:
+		return
+	is_dying = true
+	health = 0
+	health_changed.emit(0, max_health)
+	emit_signal("died")
+	# Im 2P-Modus: Companion stirbt, wird entfernt
+	queue_free()
