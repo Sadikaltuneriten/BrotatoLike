@@ -1,5 +1,3 @@
 {
-  "godot_path": "/usr/local/bin/godot",
-  "project_name": "untitled",
-  "godot_version": "4.3"
+  "godot_path": "/usr/bin/godot"
 }

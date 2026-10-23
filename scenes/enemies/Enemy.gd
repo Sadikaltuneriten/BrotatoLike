@@ -16,6 +16,7 @@ const FRAMES_TANK = preload("res://resources/sprites_tank.tres")
 
 var body_radius := 14.0
 var player: Node2D = null
+var _target_players: Array = []    # Im 2P-Modus: Player + Companion
 var contact_timer := 0.0
 const CONTACT_RATE := 0.5
 var is_dying := false
@@ -69,11 +70,16 @@ func setup_type(type: String, wave: int) -> void:
 func _ready() -> void:
 	add_to_group("enemies")
 	player = get_tree().get_first_node_in_group("player")
-	
+	# Companion-Referenz (nur relevant im 2-Spieler-Modus)
+	var companions := get_tree().get_nodes_in_group("companion")
+	if not companions.is_empty():
+		_target_players = [player] + companions
+	else:
+		_target_players = [player]
+
 	var sprite := get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 	if sprite and sprite.sprite_frames.has_animation("walk_right"):
 		sprite.play("walk_right")
-
 
 func _physics_process(delta: float) -> void:
 	if is_dying or player == null:
@@ -84,7 +90,10 @@ func _physics_process(delta: float) -> void:
 		_freeze_timer -= delta
 		velocity = Vector2.ZERO
 	else:
-		velocity = (player.global_position - global_position).normalized() * speed
+		# Im 2-Spieler-Modus verfolgt der Gegner den NÄCHSTGELEGENEN
+		# (aus Player + Companion); im Solo-Modus den Player.
+		var target_pos := _get_nearest_target_pos()
+		velocity = (target_pos - global_position).normalized() * speed
 	move_and_slide()
 
 	var sprite := get_node_or_null("AnimatedSprite2D")
@@ -98,7 +107,8 @@ func _physics_process(delta: float) -> void:
 	if contact_timer <= 0.0:
 		for i in range(get_slide_collision_count()):
 			var col := get_slide_collision(i)
-			if col and col.get_collider() and col.get_collider().is_in_group("player"):
+			# Treffer auf Player UND Companion (beide nehmen Schaden)
+			if col and col.get_collider() and (col.get_collider().is_in_group("player") or col.get_collider().is_in_group("companion")):
 				col.get_collider().take_damage(damage, global_position)
 				contact_timer = CONTACT_RATE
 				# Angriff-Animation abspielen, danach automatisch zurück auf walk
@@ -107,6 +117,27 @@ func _physics_process(delta: float) -> void:
 
 func _draw() -> void:
 	pass
+
+
+# Ermittelt die Position des NÄCHSTGELEGENEN Ziels (Player + Companion im 2P).
+# Fällt auf den Haupt-Player zurück, falls nichts gefunden wird.
+func _get_nearest_target_pos() -> Vector2:
+	var nearest: Node2D = null
+	var nearest_dist := INF
+	for target in _target_players:
+		if not is_instance_valid(target):
+			continue
+		var t: Node2D = target as Node2D
+		if t == null:
+			continue
+		var d := global_position.distance_squared_to(t.global_position)
+		if d < nearest_dist:
+			nearest_dist = d
+			nearest = t
+	if nearest != null:
+		return nearest.global_position
+	# Fallback
+	return global_position
 
 # Spielt eine einmalige Event-Animation (z. B. "attack_right") ab und wechselt
 # danach automatisch wieder auf "walk_right".
