@@ -20,15 +20,14 @@ var level_up_layer: CanvasLayer = null
 var _pending_levels: Array[int] = []
 var pause_layer: CanvasLayer = null
 var is_paused := false
+var _desert_rect: ColorRect = null
+var _desert_material: ShaderMaterial = null
 
 # ── Wave-Musik ───────────────────────────────────────────────────────────────────
 var _music_player: AudioStreamPlayer = null
 var music_volume_db: float = 0.0       # 0 dB = laut, -80 dB = stumm
 const MUSIC_DIR := "res://sound_sfx/lvl_musik"
 var _vol_percent_label: Label = null    # Live-Anzeige im Pause-Menü
-
-
-
 
 var hud_health: Label
 var hud_wave:   Label
@@ -44,7 +43,6 @@ func _ready() -> void:
 	_setup_background()
 	_setup_hud()
 	_setup_music()
-
 
 	player = PLAYER_SCENE.instantiate()
 	player.died.connect(_on_player_died)
@@ -66,6 +64,7 @@ func _ready() -> void:
 	_start_wave()
 
 func _process(delta: float) -> void:
+	_update_desert()
 	if in_shop:
 		return
 	wave_timer  -= delta
@@ -81,7 +80,6 @@ func _process(delta: float) -> void:
 		_end_wave()
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Pause-Menü mit ESC oder Controller-Start/Back umschalten
 	var pause_pressed := false
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ESCAPE:
@@ -91,7 +89,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_pressed = true
 
 	if pause_pressed and not game_over:
-		# Wenn bereits ein anderes Overlay (Shop / Level-Up) aktiv ist, ignorieren
 		if in_shop or level_up_layer != null:
 			return
 		if is_paused:
@@ -99,7 +96,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_pause_game()
 
-	# Bomben platzieren mit Q (Tastatur) oder B (Controller)
 	if game_over or in_shop or level_up_layer != null or is_paused:
 		return
 	var bomb_pressed := false
@@ -120,24 +116,19 @@ func _start_wave() -> void:
 	wave_timer  = WaveRules.WAVE_DURATION
 	spawn_timer = WaveRules.FIRST_SPAWN_DELAY
 	hud_wave.text = "Wave %d" % GameState.wave
-	# Bomben-Reset am Welle-Start
 	GameState.bomb_count = 0
 	_update_bomb_hud()
-	# Zufälligen Track für diese Welle abspielen
 	_play_random_wave_music()
 
 func _end_wave() -> void:
 	wave_timer = INF
 	for enemy in get_tree().get_nodes_in_group("enemies"):
 		enemy.queue_free()
-	# Bestehende Bomben entfernen
 	for bomb in get_tree().get_nodes_in_group("bombs"):
 		bomb.queue_free()
-	# Musik während der Pause stoppen
 	_stop_wave_music()
 	GameState.wave += 1
 	_open_shop()
-
 
 # ── Enemy spawning ───────────────────────────────────────────────────────────
 
@@ -214,7 +205,6 @@ func _open_shop() -> void:
 		_shop_items.append({"btn": btn, "upgrade": upgrade})
 		inner.add_child(btn)
 
-	# Connect after building the full array so each closure captures correct index
 	for item in _shop_items:
 		var captured_item = item
 		item.btn.pressed.connect(func():
@@ -256,7 +246,6 @@ func _close_shop() -> void:
 		shop_layer.queue_free()
 		shop_layer = null
 	_shop_items = []
-	# Heilung nach jeder Welle (Brotato-Stil: volles Leben)
 	if player and is_instance_valid(player):
 		player.health = GameState.stats.max_health
 		GameState.health_changed.emit(player.health, GameState.stats.max_health)
@@ -264,89 +253,70 @@ func _close_shop() -> void:
 	_maybe_open_level_up()
 
 # ── Level-up choice ──────────────────────────────────────────────────────────
-# Pick 1 of 3 free upgrades from the shop pool on each level-up. Controlled by the
-# project setting brotatolike/gameplay/level_up_choice (default on).
 
 func _on_leveled_up(new_level: int) -> void:
-	# Brotato-style: just queue level-ups, they will be shown at end of wave
 	_pending_levels.append(new_level)
 
 func _maybe_open_level_up() -> void:
 	if game_over or in_shop or level_up_layer != null or _pending_levels.is_empty():
 		return
 	_open_level_up(_pending_levels.pop_front())
-	# ── Wave-Musik ────────────────────────────────────────────────────────────────────
-	# Lädt alle .mp3/.ogg/.wav aus MUSIC_DIR dynamisch, damit neue Songs automatisch
-	# erkannt werden. Pro Welle wird ein zufälliger Track abgespielt.
+
+# ── Musik ────────────────────────────────────────────────────────────────────
+
 func _setup_music() -> void:
 	_music_player = AudioStreamPlayer.new()
 	_music_player.bus = "Master"
 	_music_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	_music_player.volume_db = music_volume_db
 	add_child(_music_player)
-	print("[Musik] AudioStreamPlayer erstellt und hinzugefügt")
+
 func _apply_music_volume() -> void:
 	if _music_player == null:
 		return
 	_music_player.volume_db = music_volume_db
 
-# Wird vom Slider aufgerufen: setzt Lautstärke + aktualisiert Prozent-Anzeige
 func _on_music_volume_changed(new_value: float) -> void:
 	music_volume_db = new_value
 	_apply_music_volume()
 	if _vol_percent_label:
-		# dB -> Prozent (0 dB = 100%, -80 dB ≈ 0%)
 		var pct := int((new_value + 80.0) / 80.0 * 100.0)
 		_vol_percent_label.text = "🎵  Musik-Lautstärke:  %d%%" % pct
 
-
-
-
 func _play_random_wave_music() -> void:
-	print("[Musik] _play_random_wave_music aufgerufen")
 	if _music_player == null:
 		_setup_music()
 	if _music_player == null:
-		print("[Musik] _music_player ist null!")
 		return
 
 	var dir := DirAccess.open(MUSIC_DIR)
 	if dir == null:
-		print("[Musik] Ordner NICHT gefunden: %s (Fehler-Code: %d)" % [MUSIC_DIR, DirAccess.get_open_error()])
 		return
 
 	var files: Array = dir.get_files()
-	# Nur Audio-Dateien filtern
 	var audio_files: Array[String] = []
 	for f in files:
 		var ext: String = f.get_extension().to_lower()
 		if ext == "mp3" or ext == "ogg" or ext == "wav":
 			audio_files.append(f)
 
-	print("[Musik] Gefundene Audiodateien (%d): %s" % [audio_files.size(), str(audio_files)])
-
 	if audio_files.is_empty():
-		print("[Musik] Keine Audiodateien gefunden!")
 		return
 
 	var picked: String = audio_files[randi() % audio_files.size()]
 	var path := MUSIC_DIR + "/" + picked
-	print("[Musik] Lade Stream: %s" % path)
 
 	var stream = load(path)
 	if stream == null:
-		print("[Musik] Stream konnte NICHT geladen werden: %s" % path)
 		return
 
 	_music_player.stream = stream
 	_music_player.play()
-	print("[Musik] Abspielen gestartet: %s" % picked)
 
 func _stop_wave_music() -> void:
 	if _music_player == null:
 		return
 	_music_player.stop()
-
 
 func _open_level_up(level: int) -> void:
 	get_tree().paused = true
@@ -426,13 +396,11 @@ func _pause_game() -> void:
 	pause_layer.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(pause_layer)
 
-	# Hintergrund-Abdunkelung
 	var bg := ColorRect.new()
 	bg.color = Color(0.0, 0.0, 0.0, 0.75)
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	pause_layer.add_child(bg)
 
-	# Zentriertes Panel
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	pause_layer.add_child(center)
@@ -450,7 +418,6 @@ func _pause_game() -> void:
 	inner.add_theme_constant_override("separation", 14)
 	margin.add_child(inner)
 
-	# Titel
 	var title := Label.new()
 	title.text = "PAUSE"
 	title.add_theme_font_size_override("font_size", 36)
@@ -467,7 +434,6 @@ func _pause_game() -> void:
 
 	inner.add_child(HSeparator.new())
 
-	# ── Weiter-Button (aktuell einziger aktiver Button) ───────────────────────
 	var resume_btn := Button.new()
 	resume_btn.text = "▶  Weiter"
 	resume_btn.add_theme_font_size_override("font_size", 20)
@@ -475,7 +441,6 @@ func _pause_game() -> void:
 	resume_btn.pressed.connect(_resume_game)
 	inner.add_child(resume_btn)
 
-	# ── Musik-Lautstärke-Slider ────────────────────────────────────────────────────
 	_vol_percent_label = Label.new()
 	_vol_percent_label.add_theme_font_size_override("font_size", 16)
 	_vol_percent_label.add_theme_color_override("font_color", Color(0.8, 0.8, 0.9))
@@ -491,8 +456,7 @@ func _pause_game() -> void:
 	vol_slider.custom_minimum_size = Vector2(0, 28)
 	vol_slider.value_changed.connect(_on_music_volume_changed)
 	inner.add_child(vol_slider)
-	_on_music_volume_changed(music_volume_db)  # Anzeige initial setzen
-
+	_on_music_volume_changed(music_volume_db)
 
 	var mainmenu_btn := Button.new()
 	mainmenu_btn.text = "⌂  Hauptmenü"
@@ -510,7 +474,6 @@ func _pause_game() -> void:
 
 	inner.add_child(HSeparator.new())
 
-	# Hinweis
 	var esc_hint := Label.new()
 	esc_hint.text = "ESC oder Start zum Fortsetzen"
 	esc_hint.add_theme_font_size_override("font_size", 14)
@@ -528,22 +491,19 @@ func _resume_game() -> void:
 		pause_layer.queue_free()
 		pause_layer = null
 	get_tree().paused = false
+
 # ── Death ────────────────────────────────────────────────────────────────────
 
 func _on_player_died() -> void:
 	in_shop = true
 	game_over = true
 	_pending_levels.clear()
-	# Companion entfernen
 	if companion and is_instance_valid(companion):
 		companion.queue_free()
-	# Bestehende Bomben entfernen
 	for bomb in get_tree().get_nodes_in_group("bombs"):
 		bomb.queue_free()
-	# Musik stoppen
 	_stop_wave_music()
 	_show_game_over()
-
 
 func _show_game_over() -> void:
 	var layer := CanvasLayer.new()
@@ -583,14 +543,102 @@ func _show_game_over() -> void:
 	btn.pressed.connect(func(): get_tree().reload_current_scene())
 	vbox.add_child(btn)
 
-# ── HUD ──────────────────────────────────────────────────────────────────────
+# ── Hintergrund: Wüstenlandschaft mit Sanddünen und Hitzeflimmern ──────────────
 
 func _setup_background() -> void:
-	var bg := ColorRect.new()
-	bg.color = Color(0.10, 0.10, 0.13)
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
-	move_child(bg, 0)
+	var shader_code := "shader_type canvas_item;\n"
+	shader_code += "uniform vec2 u_player_pos = vec2(0.5, 0.5);\n"
+	shader_code += "uniform vec3 u_player_move = vec3(0.0, 0.0, 0.0);\n"
+	shader_code += "\n"
+	shader_code += "float noise(vec2 st) {\n"
+	shader_code += "    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);\n"
+	shader_code += "}\n"
+	shader_code += "\n"
+	shader_code += "float smooth_noise(vec2 uv) {\n"
+	shader_code += "    vec2 i = floor(uv);\n"
+	shader_code += "    vec2 f = fract(uv);\n"
+	shader_code += "    f = f * f * (3.0 - 2.0 * f);\n"
+	shader_code += "    float a = noise(i);\n"
+	shader_code += "    float b = noise(i + vec2(1.0, 0.0));\n"
+	shader_code += "    float c = noise(i + vec2(0.0, 1.0));\n"
+	shader_code += "    float d = noise(i + vec2(1.0, 1.0));\n"
+	shader_code += "    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);\n"
+	shader_code += "}\n"
+	shader_code += "\n"
+	shader_code += "void fragment() {\n"
+	shader_code += "    // Sanddünen-Struktur (sanfte, große Wellen)\n"
+	shader_code += "    vec2 uv = UV * 12.0;\n"
+	shader_code += "    float t = TIME * 0.3;\n"
+	shader_code += "\n"
+	shader_code += "    // Sanftes Wüstenwind-Verzerrungs-Hitzeflimmern\n"
+	shader_code += "    vec2 wind = vec2(sin(t + uv.y * 0.3), cos(t * 0.4 + uv.x * 0.3)) * 0.04;\n"
+	shader_code += "\n"
+	shader_code += "    // Dezenter Fußabdruck um den Spieler\n"
+	shader_code += "    vec2 p = UV - u_player_pos;\n"
+	shader_code += "    p.y = -p.y;\n"
+	shader_code += "    float dist = length(p);\n"
+	shader_code += "    float foot = exp(-dist * dist * 50.0) * clamp(u_player_move.z * 0.0005, 0.0, 0.02);\n"
+	shader_code += "\n"
+	shader_code += "    vec2 warped_uv = uv + wind + (p * foot);\n"
+	shader_code += "\n"
+	shader_code += "    // Mehrere Schichten für geschmeidige Sanddünen\n"
+	shader_code += "    float n1 = smooth_noise(warped_uv);\n"
+	shader_code += "    float n2 = smooth_noise(warped_uv * 2.2 + vec2(5.1, 2.3)) * 0.4;\n"
+	shader_code += "    float dunes = n1 + n2;\n"
+	shader_code += "\n"
+	shader_code += "    // Warme, goldgelbe Wüsten-Farbpalette\n"
+	shader_code += "    vec3 sand_dark  = vec3(0.72, 0.52, 0.28);\n"
+	shader_code += "    vec3 sand_mid   = vec3(0.85, 0.65, 0.38);\n"
+	shader_code += "    vec3 sand_light = vec3(0.94, 0.78, 0.50);\n"
+	shader_code += "\n"
+	shader_code += "    vec3 col = mix(sand_dark, sand_mid, dunes);\n"
+	shader_code += "    col = mix(col, sand_light, smoothstep(0.7, 1.1, dunes));\n"
+	shader_code += "\n"
+	shader_code += "    // Feines Sandkorn-Grain für Realismus\n"
+	shader_code += "    col += (noise(UV * 500.0 + TIME) - 0.5) * 0.04;\n"
+	shader_code += "\n"
+	shader_code += "    // Wüsten-Vignette (Sonneneinstrahlung / Hitzeeffekt an den Rändern)\n"
+	shader_code += "    col *= 0.88 + 0.12 * (1.0 - length(UV - 0.5));\n"
+	shader_code += "\n"
+	shader_code += "    COLOR = vec4(col, 1.0);\n"
+	shader_code += "}\n"
+
+	var shader := Shader.new()
+	shader.code = shader_code
+
+	_desert_material = ShaderMaterial.new()
+	_desert_material.shader = shader
+	_desert_material.set_shader_parameter("u_player_pos", Vector2(0.5, 0.5))
+	_desert_material.set_shader_parameter("u_player_move", Vector3(0.0, 0.0, 0.0))
+
+	var bg_layer := CanvasLayer.new()
+	bg_layer.layer = -10
+	bg_layer.name = "DesertBackground"
+	add_child(bg_layer)
+
+	_desert_rect = ColorRect.new()
+	_desert_rect.color = Color(1.0, 1.0, 1.0, 1.0)
+	_desert_rect.material = _desert_material
+	_desert_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bg_layer.add_child(_desert_rect)
+
+func _update_desert() -> void:
+	if _desert_material == null:
+		return
+	var vp_size := get_viewport_rect().size
+	var player_pos := Vector2(0.5, 0.5)
+	var move_speed := 0.0
+	var move_dir := Vector2(1.0, 0.0)
+	if player and is_instance_valid(player) and player is Node2D:
+		player_pos = player.global_position / vp_size
+		if player is CharacterBody2D:
+			var cb: CharacterBody2D = player
+			move_speed = cb.velocity.length()
+			if move_speed > 1.0:
+				move_dir = cb.velocity.normalized()
+	_desert_material.set_shader_parameter("u_player_pos", player_pos)
+	_desert_material.set_shader_parameter("u_player_move",
+		Vector3(move_dir.x, move_dir.y, move_speed))
 
 func _setup_hud() -> void:
 	var canvas := CanvasLayer.new()
@@ -611,7 +659,6 @@ func _setup_hud() -> void:
 	for lbl in [hud_health, hud_wave, hud_gold, hud_timer, hud_level, hud_bomb]:
 		bar.add_child(lbl)
 
-	# Steuerung-Hinweis unten rechts
 	var hint := Label.new()
 	hint.text = "Q: Bombe  |  ESC: Pause  |  Angriff: Auto"
 	hint.add_theme_font_size_override("font_size", 14)

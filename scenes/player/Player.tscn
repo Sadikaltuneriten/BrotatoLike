@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://dlrihso28j1m" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_15.png" id="16_p3v13"]
 [ext_resource type="Texture2D" uid="uid://b02ygfiu1qkuw" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_16.png" id="17_5cssr"]
 [ext_resource type="Texture2D" uid="uid://dc5l6a754cpyk" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_17.png" id="18_h1ws3"]
+[ext_resource type="AudioStream" uid="uid://c7588ltqlbcpm" path="res://scenes/game/56_Attack_03.wav" id="18_ijyjs"]
 [ext_resource type="Texture2D" uid="uid://cfubob50bdsnl" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_18.png" id="19_mwk7e"]
 [ext_resource type="Texture2D" uid="uid://doqa8j0kmnfin" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_19.png" id="20_udvyq"]
 [ext_resource type="Texture2D" uid="uid://paskssqogakx" path="res://sprites/Ultimate Slash/PNG/Ultimate Slash_Frame_20.png" id="21_ktadw"]
@@ -1023,6 +1024,9 @@ scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_tt28y")
 animation = &"attack_back"
 autoplay = "idle"
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="." unique_id=1013656386]
+stream = ExtResource("18_ijyjs")
 
 [node name="attackAnimation" type="AnimatedSprite2D" parent="." unique_id=466650277]
 scale = Vector2(1.2, 1.2)

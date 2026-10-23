@@ -28,6 +28,12 @@ GameState="*res://scripts/GameState.gd"
 
 gameplay/level_up_choice=true
 
+[display]
+
+window/size/viewport_width=3440
+window/size/viewport_height=1440
+window/stretch/scale=1.22
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/ai_assistant_hub/plugin.cfg")

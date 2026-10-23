@@ -1,10 +1,10 @@
 extends Node2D
 
 # ── Companion-Properties ───────────────────────────────────────────────────────
-@export var follow_speed: float = 350.0       # Wie schnell die Figur folgt
-@export var offset: Vector2 = Vector2(30.0, -20.0)  # Rechts oben vom Spieler
+@export var follow_speed: float = 1.0       # Wie schnell die Figur folgt
+@export var offset: Vector2 = Vector2(40.0, -80.0)  # Rechts oben vom Spieler
 @export var anim_speed_scale: float = 1.0      # Geschwindigkeitsfaktor der Animation
-@export var wander_radius: float = 80.0        # Wie weit sie herumschlendert
+@export var wander_radius: float = 300.0        # Wie weit sie herumschlendert
 @export var wander_pause: float = 1.5          # Pause zwischen Wander-Zielen (Sekunden)
 
 # Nahkampf-Properties ──────────────────────────────────────────────────────────
@@ -12,7 +12,7 @@ extends Node2D
 @export var melee_damage: int = 30            # Schaden pro Hieb
 @export var melee_cooldown: float = 0.6       # Abklingzeit zwischen Angriffen
 @export var melee_arc: float = 6.28           # Bogen in Radians (6.28 = voller Kreis)
-@export var debug_draw: bool = true           # Reichweiten-Bogen einzeichnen
+@export var debug_draw: bool = false           # Reichweiten-Bogen einzeichnen
 
 var _anim_sprite: AnimatedSprite2D = null
 var _player: Node2D = null
@@ -20,7 +20,7 @@ var _current_dir := Vector2.ZERO
 
 # Wander-State
 var _wander_target: Vector2 = Vector2.ZERO
-var _wander_timer := 0.0
+var _wander_timer := 1.0
 var _is_wandering := false
 
 # Melee-State
@@ -31,6 +31,11 @@ var _attack_direction := Vector2.ZERO
 func _ready() -> void:
 	add_to_group("companion")
 	_anim_sprite = get_node_or_null("CompanionSprite") as AnimatedSprite2D
+	# Nahkampf-Werte aus den Companion-Stats ableiten (erweiterbar)
+	var cs: Dictionary = GameState.companion_stats
+	melee_range = float(cs.range)
+	melee_damage = int(cs.damage * cs.damage_mult)
+	melee_cooldown = 1.0 / maxf(cs.attack_speed, 0.01)
 	# speed_scale sofort setzen
 	if _anim_sprite:
 		_anim_sprite.speed_scale = anim_speed_scale
@@ -207,8 +212,11 @@ func _perform_melee_damage() -> void:
 		if angle_diff > melee_arc / 2.0:
 			continue
 
-		# Schaden
-		enemy.take_damage(melee_damage, global_position)
+		# Schaden (Companion nutzt eigene Eis/Freeze-Stats)
+		var cs: Dictionary = GameState.companion_stats
+		var ice := int(cs.ice_damage)
+		var freeze := float(cs.freeze_duration)
+		enemy.take_damage(melee_damage, global_position, ice, freeze)
 
 # ── Debug-Zeichnen ─────────────────────────────────────────────────────────────
 func _draw() -> void:

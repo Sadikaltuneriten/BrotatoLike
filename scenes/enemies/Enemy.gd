@@ -20,6 +20,7 @@ var contact_timer := 0.0
 const CONTACT_RATE := 0.5
 var is_dying := false
 var _event_animation_active := false   # verhindert überlappende Event-Coroutinen
+var _freeze_timer := 0.0              # Restzeit des Einfrierens (Bewegung stoppt)
 
 
 
@@ -77,8 +78,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if is_dying or player == null:
 		return
-	
-	velocity = (player.global_position - global_position).normalized() * speed
+
+	# ── Freeze-Status (Eis-Effekt) ──────────────────────────────────────────────
+	if _freeze_timer > 0.0:
+		_freeze_timer -= delta
+		velocity = Vector2.ZERO
+	else:
+		velocity = (player.global_position - global_position).normalized() * speed
 	move_and_slide()
 
 	var sprite := get_node_or_null("AnimatedSprite2D")
@@ -149,12 +155,18 @@ func _play_event_animation(anim_name: String) -> void:
 		sprite.play("walk_right")
 
 
-func take_damage(amount: int, source_pos: Vector2 = Vector2.ZERO) -> void:
+func take_damage(amount: int, source_pos: Vector2 = Vector2.ZERO, ice: int = 0, freeze: float = 0.0) -> int:
 	if is_dying:
-		return
-	
-	health -= amount
-	
+		return 0
+
+	# ── Eisschaden zusätzlich anrechnen ─────────────────────────────────────────
+	var total := amount + ice
+	health -= total
+
+	# ── Freeze anwenden (Bewegung wird gestoppt, siehe _physics_process) ────────
+	if freeze > 0.0:
+		_freeze_timer = maxf(_freeze_timer, freeze)
+
 	var hit_effect := HIT_EFFECT_SCENE.instantiate()
 	hit_effect.global_position = global_position
 	var main_scene := get_tree().get_root().get_node_or_null("Main")
@@ -162,12 +174,15 @@ func take_damage(amount: int, source_pos: Vector2 = Vector2.ZERO) -> void:
 		main_scene.add_child(hit_effect)
 	else:
 		get_parent().add_child(hit_effect)
-	
+
 	# Take-Damage-Animation abspielen, danach automatisch zurück auf walk
 	_play_event_animation("take_damage_right")
-	
+
 	if health <= 0:
 		die()
+
+	# Zugesetzten Schaden zurückgeben (für Vampirismus / Lifesteal)
+	return total
 
 
 func die() -> void:

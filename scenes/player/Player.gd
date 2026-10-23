@@ -13,16 +13,25 @@ var health: int
 var is_attacking := false
 var _hurt_timer := 0.0
 var _is_hurt := false
+var _regen_accumulator := 0.0
 var _anim_sprite: AnimatedSprite2D = null
 var _attack_cooldown := 0.0
 var _attack_direction := Vector2.ZERO
 var _attack_anim_sprite : AnimatedSprite2D = null
+var _attack_sound: AudioStreamPlayer2D = null
 
 func _ready() -> void:
 	add_to_group("player")
 	health = int(GameState.stats.max_health)
+	# Nahkampf-Werte aus den Stats ableiten (erweiterbar)
+	melee_range = float(GameState.stats.range)
+	melee_damage = int(GameState.stats.damage * GameState.stats.damage_mult)
+	melee_cooldown = 1.0 / maxf(GameState.stats.attack_speed, 0.01)
+	# HP-Regeneration pro Sekunde
+	_regen_accumulator = 0.0
 	_anim_sprite = get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 	_attack_anim_sprite = get_node_or_null("attackAnimation") as AnimatedSprite2D
+	_attack_sound = get_node_or_null("AttackSound") as AudioStreamPlayer2D
 
 func _physics_process(delta: float) -> void:
 	var dir := Vector2(
@@ -34,6 +43,17 @@ func _physics_process(delta: float) -> void:
 
 	var vp := get_viewport_rect().size
 	global_position = global_position.clamp(Vector2(18, 18), vp - Vector2(18, 18))
+
+	# ── HP-Regeneration (Lebensregeneration aus Stats) ───────────────────────────
+	var max_hp := int(GameState.stats.max_health)
+	var regen := float(GameState.stats.hp_regen)
+	if regen > 0.0 and health > 0 and health < max_hp:
+		_regen_accumulator += regen * delta
+		if _regen_accumulator >= 1.0:
+			var heal := int(_regen_accumulator)
+			health = min(health + heal, max_hp)
+			_regen_accumulator -= float(heal)
+			GameState.emit_signal("health_changed", health, max_hp)
 
 	# ── Cooldown herunterzählen ────────────────────────────────────────────────
 	if _attack_cooldown > 0.0:
@@ -52,6 +72,7 @@ func _physics_process(delta: float) -> void:
 
 	# Blickrichtung (flip_h) IMMER aktualisieren
 	if _anim_sprite:
+
 		if dir.x < 0:
 			_anim_sprite.flip_h = true
 		elif dir.x > 0:
@@ -120,6 +141,10 @@ func _start_attack(dir: Vector2) -> void:
 	_attack_cooldown = melee_cooldown
 	_attack_direction = dir if dir != Vector2.ZERO else Vector2(1.0, 0.0)
 
+	# ── Angriff-Sound abspielen (nur wenn eine Sound-Datei zugewiesen ist) ──────
+	if _attack_sound and _attack_sound.stream:
+		_attack_sound.play()
+
 	# ── Richtungs-Animation auswählen ──────────────────────────────────────────
 	var anim_name := ""
 	var flip := false
@@ -181,8 +206,21 @@ func _perform_melee_damage() -> void:
 		if angle_diff > melee_arc / 2.0:
 			continue
 
-		# Schaden
-		enemy.take_damage(melee_damage, global_position)
+		# ── Schaden (Krit, Eis/Freeze, Vampirismus aus Stats) ───────────────────
+		var dmg := melee_damage
+		# Krit-Treffer?
+		if randf() < GameState.stats.crit_chance:
+			dmg = int(dmg * GameState.stats.crit_damage)
+		# Eis/Freeze-Werte aus Stats
+		var ice := int(GameState.stats.ice_damage)
+		var freeze := float(GameState.stats.freeze_duration)
+		# Tatsächlich zugefügte Menge (nach Gegner-Rüstung) wird zurückgegeben
+		var dealt: int = enemy.take_damage(dmg, global_position, ice, freeze)
+		# Vampirismus: Lebe heilen pro zugefügtem Schaden
+		var lifesteal := float(GameState.stats.lifesteal)
+		if lifesteal > 0.0 and dealt > 0 and health > 0:
+			health = min(health + int(dealt * lifesteal), int(GameState.stats.max_health))
+			GameState.emit_signal("health_changed", health, int(GameState.stats.max_health))
 
 # ── Debug-Zeichnen ─────────────────────────────────────────────────────────────
 func _draw() -> void:
