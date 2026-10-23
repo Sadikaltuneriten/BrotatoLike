@@ -16,6 +16,13 @@ var xp_to_next: int = 10
 var player_level: int = 1
 var bomb_count: int = 0
 
+# ── Spielmodus ─────────────────────────────────────────────────────────────────
+# 1 = Solo (Companion ist KI), 2 = Koop (Companion ist steuerbar)
+var game_mode: int = 1
+
+func is_coop() -> bool:
+	return game_mode >= 2
+
 # ── Stats-System (erweiterbar für Items/Buffs) ─────────────────────────────────
 # Spieler-Stats (Upgrades wirken hier rein)
 var stats: Dictionary = make_base_stats()

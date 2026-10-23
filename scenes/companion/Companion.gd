@@ -6,6 +6,7 @@ extends Node2D
 @export var anim_speed_scale: float = 1.0      # Geschwindigkeitsfaktor der Animation
 @export var wander_radius: float = 300.0        # Wie weit sie herumschlendert
 @export var wander_pause: float = 1.5          # Pause zwischen Wander-Zielen (Sekunden)
+@export var move_speed: float = 300.0          # Bewegungsgeschwindigkeit im 2-Spieler-Modus
 
 # Nahkampf-Properties ──────────────────────────────────────────────────────────
 @export var melee_range: float = 200.0        # Reichweite des Hiebs
@@ -46,12 +47,16 @@ func setup(player_ref: Node2D) -> void:
 		global_position = _player.global_position + offset
 
 func _physics_process(delta: float) -> void:
-	if not _player or not is_instance_valid(_player):
+	# ── Modus-Zweig: 2 Spieler = hand­gesteuert (WASD), 1 Spieler = KI ───────────
+	if GameState.is_coop():
+		_move_coop()
+		# Cooldown, Angriff und Animation wie üblich
+		_process_attack_and_anim()
 		return
 
-	# ── Cooldown herunterzählen ────────────────────────────────────────────────
-	if _attack_cooldown > 0.0:
-		_attack_cooldown -= delta
+	# ── 1-Spieler-Modus: bestehende KI-Logik ────────────────────────────────────
+	if not _player or not is_instance_valid(_player):
+		return
 
 	# ── Prüfen ob der Spieler sich bewegt ──────────────────────────────────────
 	var player_moving := false
@@ -90,7 +95,42 @@ func _physics_process(delta: float) -> void:
 	else:
 		_current_dir = Vector2.ZERO
 
-	# ── Automatischer Nahkampf-Angriff ─────────────────────────────────────────
+	# ── Angriff & Animation ─────────────────────────────────────────────────────
+	_process_attack_and_anim()
+
+
+# ── 2-Spieler-Bewegung (WASD direkt über Physical-Keys, ohne InputAction) ─────
+func _move_coop() -> void:
+	var dx := 0.0
+	var dy := 0.0
+	if Input.is_physical_key_pressed(KEY_W):
+		dy -= 1.0
+	if Input.is_physical_key_pressed(KEY_S):
+		dy += 1.0
+	if Input.is_physical_key_pressed(KEY_A):
+		dx -= 1.0
+	if Input.is_physical_key_pressed(KEY_D):
+		dx += 1.0
+
+	var dir := Vector2(dx, dy)
+	if dir != Vector2.ZERO:
+		_current_dir = dir.normalized()
+		global_position += _current_dir * move_speed * get_physics_process_delta_time()
+	else:
+		_current_dir = Vector2.ZERO
+
+	# Im 2P-Modus: Grenzen am Viewport (damit man nicht rausgeht)
+	var vp := get_viewport_rect().size
+	global_position = global_position.clamp(Vector2(18, 18), vp - Vector2(18, 18))
+
+
+# ── Gemeinsamer Angriff & Animation (für 1P und 2P) ────────────────────────────
+func _process_attack_and_anim() -> void:
+	# Cooldown in beiden Modi herunterzählen
+	if _attack_cooldown > 0.0:
+		_attack_cooldown -= get_physics_process_delta_time()
+
+	# ── Automatischer Nahkampf-Angriff (bester Gegner in Reichweite) ────────────
 	if not is_attacking and _attack_cooldown <= 0.0:
 		var target: Node2D = _find_nearest_enemy()
 		if target:

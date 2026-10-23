@@ -13,7 +13,7 @@ config_version=5
 config/name="BrotatoLike"
 config/description="A Brotato-inspired top-down survivor"
 config/version="0.1.0"
-run/main_scene="res://scenes/game/Game.tscn"
+run/main_scene="uid://dvmn2dfr7e85f"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [audio]

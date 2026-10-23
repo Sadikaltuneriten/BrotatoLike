@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dvmn2dfr7e85f"]
+
+[ext_resource type="Script" uid="uid://cbl350pwo88bq" path="res://scenes/menu/MainMenu.gd" id="1_m2yvp"]
+
+[node name="MainMenu" type="Control" unique_id=1031268637]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m2yvp")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1513505458]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Title" type="Label" parent="VBox" unique_id=981265215]
+layout_mode = 2
+text = "Brotato-like"
+horizontal_alignment = 1
+
+[node name="BtnSingle" type="Button" parent="VBox" unique_id=1393107560]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "1 Spieler"
+
+[node name="BtnCoop" type="Button" parent="VBox" unique_id=1252628274]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "2 Spieler (Kooperativ)"
+
+[node name="BtnSettings" type="Button" parent="VBox" unique_id=1938954559]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "Einstellungen"
+
+[node name="BtnQuit" type="Button" parent="VBox" unique_id=627190248]
+custom_minimum_size = Vector2(240, 50)
+layout_mode = 2
+text = "Beenden"
+
+[node name="ModeLabel" type="Label" parent="VBox" unique_id=1157540414]
+layout_mode = 2
+text = "Auswahl: 1 Spieler"
+horizontal_alignment = 1

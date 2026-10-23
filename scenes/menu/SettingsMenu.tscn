@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://chwrg1nj1egy6"]
+
+[ext_resource type="Script" uid="uid://srusldy817sm" path="res://scenes/menu/SettingsMenu.gd" id="1_w4qa1"]
+
+[node name="SettingsMenu" type="Control" unique_id=1283885490]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w4qa1")
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=656648993]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Title" type="Label" parent="VBox" unique_id=1204344474]
+layout_mode = 2
+text = "Einstellungen"
+horizontal_alignment = 1
+
+[node name="BtnBack" type="Button" parent="VBox" unique_id=1315612719]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+text = "← Zurück"
